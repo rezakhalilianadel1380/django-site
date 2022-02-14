@@ -1,0 +1,112 @@
+{% extends 'adminlte/_Main_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load jalali_tags %}
+{% block title %} ویرایش سفارش  | کنترل پنل مدیریت{% endblock title %}
+{% block content %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header" style="margin-bottom: 20px;">
+  <h1>
+    ویرایش سفارش
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/adminlte"><i class="fa fa-dashboard"></i> داشبرد</a></li>
+    <li><a href="/adminlte"><i class="fa fa-cart"></i> سفارش </a></li>
+    <li class="active">
+      ویرایش سفارش
+    </li>
+  </ol>
+</section>
+<!-- Content Header (Page header) end  -->
+
+
+<!-- django messages start -->
+{% for msg in messages %}
+<div class='row' style="margin-bottom: 20px;margin-top:20px">
+  <div class="col-12">
+    {% if msg.tags == 'success' %}
+    <div class="alert alert-success alert-dismissible" style="padding-right: 30px;">
+      <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <p>{{msg}}</p>
+    </div>
+    {% endif %}
+    {% if msg.tags == 'error' %}
+    <div class="alert alert-danger alert-dismissible" style="padding-right: 30px;">
+      <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{msg}}
+    </div>
+    {% endif %}
+    {% if msg.tags == 'warning' %}
+    <div class="alert alert-warning alert-dismissible" style="padding-right: 30px;">
+      <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{msg}}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+<!-- django messages end -->
+
+
+
+
+<section class="content ">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            ویرایش سفارش
+          </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form role="form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="box-body">
+            <div class="form-group ">
+              <label for="exampleInputEmail1">کاربر</label>
+              {{form.user}}
+              {% for i in form.user.errors %}
+              <p class='text-danger'>{{i}}</p>
+              {% endfor %}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1"> تاریخ پرداخت :</label><br>
+              {{form.payment_paid}}
+              {% for i in form.payment_paid.errors %}
+              <p class='text-danger'>{{i}}</p>
+              {% endfor %}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputFile">پرداخت شده / پرداخت نشده :</label><br>
+              {{form.paid}}
+              {% for i in form.paid.errors %}
+              <p class='text-danger'>{{i}}</p>
+              {% endfor %}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputFile">کد تخفیف : </label>
+              {{form.discount}}
+              {% for i in form.discount.errors %}
+              <p class='text-danger'>{{i}}</p>
+              {% endfor %}
+
+            </div>
+          </div>
+
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary btn-block">ذخیره</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock content %}

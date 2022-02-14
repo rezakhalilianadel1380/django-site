@@ -1,0 +1,112 @@
+{% extends 'base/_MainLayout.html' %}
+{% load static %}
+{% block title %}ثبت نام {% endblock title %}
+
+{% block content %}
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <h1><a href="/">صفحه اصلی</a></h1>
+                        </li>
+                        <li>ثبت نام</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="register-area login-area mt-25">
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-3 col-lg-6">
+                <div class="checkout_info mb-20">
+                    <form class="form-row" method='Post'>
+                        {% csrf_token %}
+                        <h5 class="last-title mb-10 text-center">ایجاد حساب جدید</h5>
+                        <div class="col-lg-12 text-left mb-20">
+                            <p class="register-page"> آیا حساب دارید؟ <a href="/login">ورود</a></p>
+                        </div>
+                        <div class="form_group col-12">
+                            <label class="form-label"> نام کاربری <span> * </span></label>
+                            {% for i in form.username.errors  %}
+                            <p class='text-danger' >{{i}}</p>
+                            {% endfor %}
+                            {{form.username}}
+                        </div>
+                        <div class="form_group col-12">
+                            <label class="form-label"> نام <span> * </span></label>
+                            {% for i in form.first_name.errors  %}
+                            <p class='text-danger' >{{i}}</p>
+                            {% endfor %}
+                            {{form.first_name}}
+                        </div>
+                        <div class="form_group col-12">
+                            <label class="form-label"> نام خانوادگی <span> * </span></label>
+                            {% for i in form.last_name.errors  %}
+                            <p class='text-danger' >{{i}}</p>
+                            {% endfor %}
+                            {{form.last_name}}
+                        </div>
+                        <div class="form_group col-12">
+                            <label class="form-label">آدرس ایمیل<span> * </span></label>
+                            {% for i in form.email.errors  %}
+                            <p class='text-danger' >{{i}}</p>
+                            {% endfor %}
+                           {{form.email}}
+                        </div>
+                       
+                        <div class="form_group col-12">
+                            <label class="form-label"> رمز عبور  <span> * </span></label>
+                            {{form.password}}
+                            <a class="show-btn" style='text-decoration:none;color:white; ' onclick="showpassbtn('showpass')">نمایش</a>
+                            {% for i in form.password.errors  %}
+                            <p class='text-danger' >{{i}}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="form_group col-12">
+                            <label class="form-label"> تکرار رمز عبور <span> * </span></label>          
+                            {{form.repeat_password}}
+                            <a class="show-btn" style='text-decoration:none;color:white; ' onclick="showpassbtn('showreppass')">نمایش</a>
+                            {% for i in form.repeat_password.errors  %}
+                            <p class='text-danger' >{{i}}</p>
+                            {% endfor %}
+                        </div>
+                      
+                        <div class="form-row">
+                            <div class="form-group col-12">
+                                <div class="form-check">
+                                    <div class="custom-checkbox">
+                                       {{form.news}}
+                                        <span class="checkmark"></span>
+                                        <label class="form-check-label" for="agree-condition-2">برای خبرنامه ما ثبت نام کنید-هم اکنون در خبرنامه های ما مشترک شوید و از مجموعه های جدید ، جدیدترین لک بوک ها و پیشنهادات اختصاصی به روز باشید.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-12">
+                                <div class="form-check">
+                                    <div class="custom-checkbox">
+                                       {% comment %} {{form.captcha}} {% endcomment %}
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-20">
+                            <input type="submit" class="btn-secondary" value="ثبت نام">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+

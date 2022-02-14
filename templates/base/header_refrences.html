@@ -1,0 +1,45 @@
+{% load static %}
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="robots" content="noindex, follow" />
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+<!-- Bootstrap Min Css -->
+<link rel="stylesheet" href="{% static 'css/vendor/bootstrap.min.css' %}">
+<!-- Font Awesome Css -->
+<link rel="stylesheet" href="{% static 'css/vendor/font-awesome.min.css' %}">
+<!-- Material Design Font Css -->
+<link rel="stylesheet" href="{% static 'css/vendor/material-design-iconic-font.min.css' %}">
+<!-- Animate Css -->
+<link rel="stylesheet" href="{% static 'css/vendor/animate.min.css' %}">
+<!-- Magnific Popup CSS -->
+<link rel="stylesheet" href="{% static 'css/plugins/magnific-popup.css"' %}">
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="{% static 'css/plugins/jquery-ui.min.css' %}">
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="{% static 'css/plugins/plugins.css' %}">
+<!-- Style CSS -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<div class="loader" ></div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+jQuery(function($){
+$('.loader').fadeOut('slow');
+}); });
+</script>
+<style>
+.loader {
+position: fixed;
+left: 0px;
+top: 0px;
+width: 100%;
+height: 100%;
+z-index: 9999;
+background: url('{% static "loader.gif" %}') 50% 50% no-repeat #fff; /* Change the #fff here to your background color of choice for the preloader fullscreen section */
+}
+.elementor-editor-active .loader{
+display: none;
+}
+</style>

@@ -1,0 +1,400 @@
+{% extends 'base/_MainLayout.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+
+
+{% block title %}
+{{object.title}}
+{% endblock title %}
+
+
+
+
+{% block content %}
+
+    <!--=====================
+    Breadcrumb Aera Start
+    =========================-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li>
+                                <h1><a href="index.html">صفحه اصلی</a></h1>
+                            </li>
+                            <li><a href="shop.html">فروشگاه</a></li>
+                            <li>جزئیات محصولات متغییر</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for msg in messages %}
+    <div class='row'>   
+        <div class="col-12">
+            {% if msg.tags == 'success' %}
+            <div class="alert alert-success" role="alert">
+                {{msg}}
+             </div>
+            {% endif %}
+            {% if msg.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{msg}}
+             </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    <!--=====================
+    Breadcrumb Aera End
+    =========================-->
+
+    <!-- ========================
+    Product Details Area Start 
+    ===========================-->
+    <div class="product-area product-details-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-12 mt-50">
+                    <!-- Product Zoom Image start -->
+                    <div class="product-slider-container arrow-center text-center">
+                        <div class="product-item">
+                            <a href="{{object.image.url}}"><img src="{{object.image.url}}" class="img-fluid" alt="" /></a>
+                        </div> 
+                        {% for image in gallery %}
+                        <div class="product-item">
+                            <a href="{{image.image.url}}"><img src="{{image.image.url}}" class="img-fluid" alt="" /></a>
+                        </div>
+                        {% endfor %}
+                       
+                    </div>
+                    <!-- Product Zoom Image End -->
+                    <!-- Product Thumb Zoom Image Start -->
+                    <div class="product-details-thumbnail arrow-center text-center">
+                        <div class="product-item-thumb" style="width: 100%; display: inline-block;">
+                            <a href="{{object.image.url}}"><img src="{{object.image.url}}" class="img-fluid" alt="" /></a>
+                        </div> 
+                        {% for image in gallery %}
+                        <div class="product-item-thumb" style="width: 100%; display: inline-block;">
+                            <a href="{{image.image.url}}"><img src="{{image.image.url}}" class="img-fluid" alt="" /></a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-lg-7 col-12 mt-45">
+                    <!-- Product Summery Start -->
+                    <div class="product-summery position-relative">
+                        <div class="product-head">
+                            <h1 class="product-title"> {{object.title}}</h1>
+                            <div class="product-arrows text-right">
+                                <a href="#"><i class="fa fa-long-arrow-left"></i></a>
+                                <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="rating-meta d-flex">
+                            <div class="rating">
+                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                <span class="yellow"><i class="fa fa-star"></i></span>
+                            </div>
+                            <ul class="meta d-flex">
+                                <li>
+                                    <a href="#"><i class="fa fa-commenting-o"></i> خواندن نظرات (3) </a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-edit"></i> نظر خود را با ما در میان بگذارید</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="price-box">
+                            {% if object.discount == 0 %}
+                                            <span class="regular-price">{{object.price|intcomma:False}} تومان</span>
+                                        {% else %}
+                                        <span class="regular-price">  {{object.discounts|intcomma:False}}  تومان
+                                        <span class="old-price"><del>  {{object.price|intcomma:False}}تومان  </del></span>
+
+                                        </span>
+                                        
+                            {% endif %} 
+                           
+                        </div>
+                        <div class="product-description">
+                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است ، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+                        </div>
+                        <div class="product-tax mb-20">
+                            <ul>
+                                <li><span><strong>قیمت: </strong>{{object.discounts|intcomma:False}} </span></li>
+                                <li><span><strong>برند:  </strong>{{object.brand}}</span></li>
+                                <li><span><strong>کد محصول:  </strong>دیجیتال </span></li>
+                                <li><span><strong>امتیاز محصول:  </strong>200</span></li>
+                                <li><span><strong>موجود در انبار:  </strong>{% if object.Number > 0 %}موجود {% else %}ناموجود{% endif %}</span></li>
+                            </ul>
+                        </div>
+                        <form action="/addtocart" method='POST'>
+                            
+                            {% csrf_token %}
+                            {{form.product_id}}
+                        <div class="product-packeges">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="label"><span>تعداد</span></td>
+                                        <td class="value">
+                                            <div class="product-quantity">
+                                                <span class="qty-btn minus"><i class="fa fa-angle-down"></i></span>
+                                                {% comment %} <input type="text" class="input-qty" value="1"> {% endcomment %}
+                                                {{form.count}}
+                                               
+                                                <span class="qty-btn plus"><i class="fa fa-angle-up"></i></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="product-buttons grid_list">
+                            <div class="action-link">
+                                <a class="compare-add same-link" href="compare.html" title="افزودن به مقایسه ها"><i class="zmdi zmdi-refresh-alt"></i></a>
+                                <button class="btn-secondary" type='submit'>افزودن به سبد خرید </button>
+                                <a class="wishlist-add same-link" href="wishlist.html" title="افزودن به علاقه مندی‌ها"><i class="zmdi zmdi-favorite-outline zmdi-hc-fw"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                   
+                        <div class="product-meta">
+                            <div class="desc-content">
+                                <div class="social_sharing d-flex">
+                                    <h5>اشتراک این پست: </h5>
+                                    <ul>
+                                        <li><a href="#" title="فیسبوک"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#" title="توییتر"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#" title="پینترست"><i class="fa fa-pinterest"></i></a></li>
+                                        <li><a href="#" title="گوگل پلاس"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#" title="لینکدین"><i class="fa fa-linkedin"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Summery End -->
+                </div>
+            </div>
+            <div class="row mt-40">
+                <div class="col-lg-3 col-sm-3 col-md-2">
+                    <!-- Product Description Tab Start -->
+                    <div class="product-desc-tab">
+                        <ul class="nav flex-column" role="tablist">
+                            <li><a class="active" href="#description" role="tab" data-bs-toggle="tab" aria-selected="false">درباره محصول</a></li>
+                            <li><a href="#sheet" role="tab" data-bs-toggle="tab" aria-selected="false">اطلاعات محصول</a></li>
+                            <li><a href="#reviews" role="tab" data-bs-toggle="tab" aria-selected="true">نظرات</a></li>
+                        </ul>
+                    </div>
+                    <!-- Product Description Tab End -->
+                </div>
+                <div class="col-lg-9 col-sm-9 col-md-10">
+                    <div class="product-desc-tab-content">
+                        <!-- Start Single Content -->
+                        <div role="tabpanel" id="description" class="product_tab_content fade active show">
+                            <div class="product_description_wrap mt-20">
+                                <div class="product_desc">
+                                  {{object.description|safe|linebreaks }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Content -->
+                        <!-- Start Single Content -->
+                        <div role="tabpanel" id="sheet" class="product_tab_content fade">
+                            <div class="pro__feature mt-20">
+                                {{object.information|safe}}
+                            </div>
+                        </div>
+                        <!-- End Single Content -->
+                        <!-- Start Single Content -->
+                        <div role="tabpanel" id="reviews" class="product_tab_content fade">
+                            <div class="review_address_inner mt-20">
+                                <!-- Start Single Review -->
+                                {% if comments.exists %}                        
+                                {% for comment in comments %}
+                                    <div class="pro_review mb-4">
+                                       
+                                        <div class="review_details" >
+                                            <div class="review_info">
+                                                <a class="last-title" href="#">{{comment.name}}</a>
+                                                <div class="rating">
+                                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                                </div>
+                                                <div class="rating_send">
+                                                    <a href="#"><i class="zmdi zmdi-mail-reply"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="review_date">
+                                                <span>5 آبان 1400</span>
+                                            </div>
+                                            <p style="display:block;">{{comment.message}}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="alert alert-warning" role="alert">
+                                    <p>هیچ نظری یافت نشد </p>
+                                 </div>
+                                {% endif %}
+                                <!-- End Single Review -->
+                                <!-- Start Single Review -->
+                                {% comment %} <div class="pro_review pro-second">
+                                    <div class="review_thumb">
+                                        <img src="{% static 'images/blog/comment/comment-3.jpg' %}" alt="review images">
+                                    </div>
+                                    <div class="review_details">
+                                        <div class="review_info">
+                                            <a class="last-title" href="#">رضا گلزار</a>
+                                            <div class="rating">
+                                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                                <span class="yellow"><i class="fa fa-star"></i></span>
+                                            </div>
+                                            <div class="rating_send">
+                                                <a href="#"><i class="zmdi zmdi-mail-reply"></i></a>
+                                                <a href="#"><i class="zmdi zmdi-close"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="review_date">
+                                            <span>5 آبان 1400</span>
+                                        </div>
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است ، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+                                    </div>
+                                </div> {% endcomment %}
+                                <!-- End Single Review -->
+                            </div>
+                            <!-- Start RAting Area -->
+                            <div class="rating_wrap mt-5">
+                                <h4 class="last-title">امتیاز شما</h4>
+                                <div class="rating_list mt-20">
+                                    <!-- Start Single List -->
+                                    <div class="rating">
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="rating">
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <!-- End Single List -->
+                                </div>
+                            </div>
+                            <!-- End RAting Area -->
+                            <div class="comments_form">
+                                <h3>دیدگاهتان را با ما در میان بگذارید</h3>
+                                <p>ایمیل شما منتشر نخواهد شد پس با اطمینان ایمیلتان را ثبت کنید</p>
+                                <form action="/addcomment" method="POST">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% csrf_token %}
+                                            {{comment.product_id}}
+                                            <label for="review_comment">نظـرات</label>
+                                            {{comment.message}}
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label for="author">نام</label>
+                                            {{comment.name}}
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label for="email">ایمیل</label>
+                                            {{comment.email}}
+                                        </div>
+                                    </div>
+                                    <button class="button" type="submit">ارسال نظر</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- End Single Content -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-details-home2 mt-45 mb-15">
+                        <div class="block-title">
+                            <h6>محصولات مرتبط</h6>
+                        </div>
+                        <div class="product-carousel-home2 slick-custom  nav-top">
+                         {% for product in products %}
+                         
+                         
+                            <div class="product-row">
+                                <!-- Single-Product-Start -->
+                                <div class="item-product">
+                                    <div class="product-thumb">
+                                        <a href="product-details.html">
+                                            <img src="{{product.image.url}}" alt="" class="img-fluid">
+                                        </a>
+                                        <div class="box-label">
+                                            <div class="label-product-new">
+                                                <span>جدید </span>
+                                            </div>
+                                        </div>
+                                        <div class="action-link">
+                                            <a class="quick-view same-link" href="#" title="دسترسی سریع" data-bs-toggle="modal" data-bs-target="#modal_box" data-original-title="quick view"><i class="zmdi zmdi-eye zmdi-hc-fw"></i></a>
+                                            <a class="compare-add same-link" href="compare.html" title="افزودن به مقایسه ها"><i class="zmdi zmdi-refresh-alt"></i></a>
+                                            <a class="wishlist-add same-link" href="wishlist.html" title="افزودن به علاقه مندی‌ها"><i class="zmdi zmdi-favorite-outline zmdi-hc-fw"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-caption">
+                                        <div class="product-name">
+                                            <a href="product-details.html">{{product.title}}</a>
+                                        </div>
+                                        <div class="rating">
+                                            <span class="yellow"><i class="fa fa-star"></i></span>
+                                            <span class="yellow"><i class="fa fa-star"></i></span>
+                                            <span class="yellow"><i class="fa fa-star"></i></span>
+                                            <span class="yellow"><i class="fa fa-star"></i></span>
+                                            <span class="yellow"><i class="fa fa-star"></i></span>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price">{{product.price|intcomma:False}} تومان</span>
+                                        </div>
+                                        <div class="cart">
+                                            <div class="add-to-cart">
+                                                <a class="cart-plus" href="shopping-cart.html" title="افزودن به سبد خرید"><i class="zmdi zmdi-shopping-cart-plus zmdi-hc-fw"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Single-Product-End -->
+                            </div>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ========================
+    Product Details Area End 
+    ===========================-->
+
+
+
+
+{% endblock content %}

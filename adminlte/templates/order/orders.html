@@ -1,0 +1,167 @@
+{% extends 'adminlte/_Main_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load jalali_tags %}
+{% block title %} سفارشات | کنترل پنل مدیریت{% endblock title %}
+
+{% block content %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header"  style="margin-bottom: 20px;">
+    <h1>
+        سفارش ها
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/adminlte"><i class="fa fa-dashboard"></i> داشبرد</a></li>
+        <li class="active">
+            سفارش ها
+        </li>
+    </ol>
+</section>
+<!-- Content Header (Page header) end  -->
+
+
+<!-- django messages start -->
+{% for msg in messages %}
+    <div class='row' style="margin-bottom: 20px;margin-top:20px">   
+        <div class="col-12">
+            {% if msg.tags == 'success' %}
+            <div class="alert alert-success alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <p >{{msg}}</p>
+             </div>
+            {% endif %}
+            {% if msg.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+             </div>
+            {% endif %}
+            {% if msg.tags == 'warning' %}
+            <div class="alert alert-warning alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+             </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+<!-- django messages end -->
+
+
+
+
+<section class="content ">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+
+                    <h3 class="profile-username text-center mb-3">ارقام و تعداد سفارشات</h3>
+
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>تعداد کل سفارش ها </b> <a class="pull-left">{{len}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>سفارش های پرداخت شده </b> <a class="pull-left">{{paid}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>دوستان</b> <a class="pull-left">13,287</a>
+                        </li>
+                    </ul>
+
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">سفارش ها</h3>
+
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right"
+                                    placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>شماره</th>
+                                    <th>کاربر</th>
+                                    <th>تاریخ</th>
+                                    <th>وضعیت</th>
+                                    <th>مبلغ کل </th>
+                                    <th>تعداد کالاها</th>
+                                    <th>ویرایش</th>
+                                </tr>
+                                {% for order in page_obj %}
+                                <tr>
+                                    <td>{{order.id}}</td>
+                                    <td>{{order.user.get_full_name}}</td>
+                                    <td>{% if order.paid %} {{order.payment_paid|to_jalali:' %H:%M:%S , %Y/%m/%d '}} {% else %}----{% endif %}</td>
+                                    <td><span
+                                            class="label {% if order.paid %}label-success {% else %}label-danger{% endif %} ">{%if order.paid %}پرداخت شده {% else %} پرداخت نشده{% endif %}</span></td>
+                                    <td>{{order.total_with_post|intcomma:False}}
+                                    </td>
+                                    <td>{{order.detail_len}}</td>
+                                    <td class="product-remove"><a href="/adminlte/order/edite/{{order.id}}"><i
+                                                class="fa fa-pencil"></i></a></td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12" style="display: flex;justify-content:end;">
+            <div class="dataTables_paginate paging_simple_numbers " id="example2_paginate">
+                <ul class="pagination " style="margin-right: 10px;">
+
+                    {% if page_obj.has_previous %}
+                    <li class="paginate_button previous"><a
+                            href="?page={{ page_obj.previous_page_number }}{% if request.GET %}&q={{request.GET.q}}{% endif %}"><i
+                                class="fa fa-angle-right"></i> قبلی </a></li>
+                    {% endif %}
+                    {% for page in page_obj.paginator.page_range %}
+                    {% if page == page_obj.number%}
+                    <li class="paginate_button  active"><a>{{page}}</a></li>
+                    {% else %}
+                    <li class="paginate_button"><a
+                            href="?page={{page}}{% if request.GET %}&q={{request.GET.q}}{% endif %}">{{page}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="paginate_button next"><a
+                            href="?page={{page_obj.next_page_number}}{% if request.GET %}&q={{request.GET.q}}{% endif %}">
+                            بعدی <i class="fa fa-angle-left"></i></a>
+                    <li>
+                        {% endif %}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

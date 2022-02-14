@@ -1,0 +1,201 @@
+{% extends 'adminlte/_Main_layout.html' %}
+{% load thumbnail %}
+{% load humanize %}
+{% load static %}
+{% block title %}ویرایش کاربران| کنترل پنل مدیریت{% endblock title %}
+{% block content %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header" style="margin-bottom: 20px;">
+  <h1>
+    ویرایش کاربر 
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/adminlte"><i class="fa fa-dashboard"></i> داشبرد</a></li>
+    <li><a href="/adminlte/user"><i class="fa fa-users"></i>کاربران</a></li>
+    <li class="active"> 
+      ویرایش کاربر 
+    </li>
+  </ol>
+</section>
+<!-- Content Header (Page header) end  -->
+
+
+<!-- django messages start -->
+{% for msg in messages %}
+    <div class='row' style="margin-bottom: 20px;margin-top:20px">   
+        <div class="col-12">
+            {% if msg.tags == 'success' %}
+            <div class="alert alert-success alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <p >{{msg}}</p>
+             </div>
+            {% endif %}
+            {% if msg.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+             </div>
+            {% endif %}
+            {% if msg.tags == 'warning' %}
+            <div class="alert alert-warning alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+             </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+<!-- django messages end -->
+
+
+<section class="content">
+  <div class="row">
+    <form role="form" method='post' enctype="multipart/form-data">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                <h3 class="box-title">
+                    فرم ویرایش کاربران 
+                </h3>
+            </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                {% csrf_token %}
+                
+                <div class="box-body">
+                    <div class="form-group ">
+                    <label for="exampleInputEmail1">نام کابری </label>
+                    {{form.username}}
+                    {% for i in form.username.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputPassword1">گذرواژه :</label><br>
+                    {{form.password}}
+                    <p>گذرواژه‌ها به صورت خام نگهداری نمی‌شوند لذا راهی برای مشاهدهٔ گذرواژهٔ این کاربر وجود ندارد، اما می‌توانید آن را با این فرم تغییر دهید.</p>
+                    {% for i in form.password.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">نام :</label><br>
+                    {{form.first_name}}
+                    {% for i in form.first_name.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">نام خانوادگی :</label>
+                    {{form.last_name}}
+                    {% for i in form.last_name.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">ایمیل : </label>
+                    {{form.email}}
+                    {% for i in form.email.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">گروه ها :</label>
+                    {{form.groups}}<br>
+                    {% for i in form.groups.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">اجازه ها  :</label>
+                    {{form.user_permissions}}
+                    {% for i in form.user_permissions.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                
+                    <div class="form-group">
+                    <label for="exampleInputFile">اخرین تاریخ ورود </label>
+                    {{form.last_login}}
+                    {{form.last_login.help_text}}
+                    {% for i in form.last_login.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">تاریخ پیوستن :</label>
+                    {{form.date_joined}}
+                    {{form.date_joined.help_text}}
+                    {% for i in form.date_joined.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                
+                    <div class="form-group">
+                    <label for="exampleInputFile">فعال  :</label>
+                    {{form.is_active}}
+                    {{form.is_active.help_text}}
+                    {% for i in form.is_active.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    
+                    <div class="form-group">
+                    <label for="exampleInputFile">وضعیت کارمندی :</label>
+                    {{form.is_staff}}
+                    {{form.is_staff.help_text}}
+                    {% for i in form.is_staff.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputFile">ابرکاربر:</label>
+                    {{form.is_superuser}}
+                    {{form.is_superuser.help_text}}
+                    {% for i in form.is_superuser.errors  %}
+                    <p class='text-danger' >{{i}}</p>
+                    {% endfor %}
+                    </div>
+                    
+                
+
+                </div>
+                
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary btn-block">ذخیره</button>
+                </div>
+            
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box box-success box-solid">
+              <div class="box-header with-border">
+                <h3 class="box-title">اواتار</h3>
+  
+               
+                <!-- /.box-tools -->
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <img src="{{form2.instance.image.url}}" width="100%" height="300px" alt="">
+                 
+                {% for i in form2.image.errors  %}
+                <p class='text-danger' >{{i}}</p>
+                {% endfor %}
+                {{form2.user}}
+                {{form2.image}}
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </form>
+  </div>
+</section>
+
+
+
+{% endblock content %}

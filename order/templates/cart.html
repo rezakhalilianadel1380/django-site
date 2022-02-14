@@ -1,0 +1,179 @@
+{% extends 'base/_MainLayout.html' %}
+{% load thumbnail %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+سبد خرید
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <h1><a href="index.html">صفحه اصلی</a></h1>
+                        </li>
+                        <li>سبد خرید</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for msg in messages %}
+
+<div class='row'>   
+    <div class="col-12">
+        {% if msg.tags == 'success' %}
+        <div class="alert alert-success" role="alert">
+            {{msg}}
+         </div>
+        {% endif %}
+        {% if msg.tags == 'error' %}
+        <div class="alert alert-danger" role="alert">
+            {{msg}}
+         </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+
+{% if order.is_order %}
+<div class="cart-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                    <!-- Cart Title Start -->
+                    <div class="cart-title">
+                        <h5 class="last-title mt-50 mb-20"> سبد خرید </h5>
+                    </div>
+                    <!-- Cart Title End -->
+                    <!-- Cart Table Area Start -->
+                    <div class="table-desc">
+                        <div class="cart-page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-image"> تصاویر </th>
+                                        <th class="product-name">محصولات</th>
+                                        <th class="product-price">قیمت</th>
+                                        <th class="product-quantity">تعداد</th>
+                                        <th class="product-total">مجموع</th>
+                                        <th class="product-remove"> حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% csrf_token %}
+                                     {% for order in order.orderdetail_set.all %}        
+                                    <tr>
+                                        <td class="product-image">
+                                            {% thumbnail order.product.image "100x100" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            {% endthumbnail %}
+                                            {% comment %} <a href="#"><img src="{{order.product.image.url}}" alt=""></a> {% endcomment %}
+                                        </td>
+                                        <td class="product-name"><a href="products/{{order.product.id}}/{{order.product.newstring}}">{{order.product.title}}</a></td>
+                                        <td class="product-price">{{order.product.discounts|intcomma:False}}تومان</td>
+                                        
+                                        <td class="product-quantity">                                          
+                                            <label>تعداد</label>
+                                            <input name='count' onchange="handleOrderCount({{order.id}},this)"   min="1" max="100" value="{{order.count}}" type="number">
+                                             
+                                        </td>
+                                        <td class="product-total">{{order.totalprice|intcomma:False}}</td>
+                                        <td class="product-remove"><a href="delete/{{order.id}}"><i class="fa fa-trash-o"></i></a></td>
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                    
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="cart-submit">
+                            <button type="submit" onclick='updateorder()'>بروزرسانی سبد خرید</button>
+                        </div>
+                    </div>
+                    <!-- Cart Table Area End -->
+                    <!-- Coupon Area Start -->
+                    <div class="coupon-area">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="coupon-code left">
+                                    <h3>کد تخفیف </h3>
+                                    <div class="coupon-inner">
+                                        <p> در صورت داشتن کد تخفیف خود را وارد کنید. </p>
+                                        <form method='POST'>
+                                            {% csrf_token %}
+                                        {{form.discountcode}}
+                                        <button type="submit">اعمال کد تخفیف</button>
+                                        <p class="text-success mt-2">{{message}}</p>
+                                        {% for i in form.discountcode.errors  %}
+                                        <p class='text-danger'>{{i}} </p>
+                                        {% endfor %}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="coupon-code right">
+                                    <h3>جمع کل</h3>
+                                    <div class="coupon-inner">
+                                        <div class="cart-subtotal">
+                                            <p>جمع کل</p>
+                                            <p class="cart-amount">{{order.total_with_post|intcomma:False}} تومان</p>
+                                        </div>
+                                        <div class="cart-subtotal ">
+                                            <p> حمل و نقل </p>
+                                            <p class="cart-amount"><span>پست پیشتاز: </span>{% if order.total_with_post > 500000 %}رایگان{% else %}12,0000 تومان{% endif %} </p>
+                                        </div>
+                                        <a href="#">هزینه حمل و نقل</a>
+
+                                        <div class="cart-subtotal">
+                                            <p>مجموع</p>
+                                            <p class="cart-amount">{{order.total_with_post|intcomma:False}} تومان</p>
+                                        </div>
+                                        <div class="checkout-btn">
+                                            <a href="{% url 'checkout' %}">ادامه فرایند خرید</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Coupon Area End -->
+              
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+<div class="row">
+<div class="col-12 d-flex justify-content-center">
+    <img src="{% static 'images/orderimage/68b7acd6.png' %}">  
+</div>
+
+<h4 style='text-align:center;' class='mb-3'>سبد خرید  شما خالی است !</h4>
+<p style='text-align:center;' class='mb-4'>
+می‌توانید برای مشاهده محصولات بیشتر به صفحات زیر بروید
+</p>
+<div class="col-12 d-flex justify-content-center">
+   <a href="/products" class='text-info'>فروشگاه</a>
+   <a href="/" style='margin-right:20px;' class='text-info'>صفحه اصلی</a>
+</div>
+</div>
+
+</div>
+{% endif %}
+{% endblock content %}

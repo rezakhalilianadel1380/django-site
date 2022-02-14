@@ -1,0 +1,389 @@
+{% extends 'base/_MainLayout.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}محصولات{% endblock title %}
+
+{% block content %}
+
+
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <h1><a href="/">صفحه اصلی</a></h1>
+                        </li>
+                        <li><a href="/products">فروشگاه</a></li>
+                       
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="shop-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <aside class="sidebar-widget mt-50">
+                    <div class="shop-sidebar-category">
+                        <div class="sidebar-title">
+                            <h4 class="title-shop">صفحه اصلی</h4>
+                        </div>
+                        <ul class="sidebar-category-expand">
+                            <li class="menu-item-has-children active"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                <a href="#"> کامپیوتر - لپ تاپ </a>
+                                <ul class="sub-menu">
+                                    <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                        <a href="#">مردانه </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html">تیشرت</a></li>
+                                            <li><a href="shop-fullwidth.html"> شلوار </a></li>
+                                            <li><a href="shop-fullwidth-list.html">کفش</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                        <a href="#"> زن</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html">تیشرت</a></li>
+                                            <li><a href="shop-fullwidth.html"> شلوار </a></li>
+                                            <li><a href="shop-fullwidth-list.html">کفش</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                        <a href="#"> بچه ها </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html">تیشرت</a></li>
+                                            <li><a href="shop-fullwidth.html"> شلوار </a></li>
+                                            <li><a href="shop-fullwidth-list.html">کفش</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                <a href="#"> الکترونیک </a>
+                                <ul class="sub-menu">
+                                    <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                        <a href="#"> دوربین</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html"> سیم و کابل </a></li>
+                                            <li><a href="shop-fullwidth.html"> بی سیم</a></li>
+                                            <li><a href="shop-fullwidth-list.html"> لوازم جانبی</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                        <a href="#"> تلفن همراه </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html"> سیم و کابل </a></li>
+                                            <li><a href="shop-fullwidth.html"> بی سیم</a></li>
+                                            <li><a href="shop-fullwidth-list.html"> لوازم جانبی</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                        <a href="#"> تلویزیون و ویدئو </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html"> سیم و کابل </a></li>
+                                            <li><a href="shop-fullwidth.html"> بی سیم</a></li>
+                                            <li><a href="shop-fullwidth-list.html"> لوازم جانبی</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"><i class="fa fa-angle-down"></i></span><span class="menu-expand"><i class="fa fa-angle-down"></i></span>
+                                <a href="#"> اسباب بازی ها و سرگرمی ها </a>
+                                <ul class="sub-menu">
+                                    <li><a href="about.html"> هنر و صنایع دستی </a></li>
+                                    <li><a href="services.html"> اسباب بازی بچه </a></li>
+                                    <li><a href="faq.html"> لوازم الکترونیکی برای کودکان </a></li>
+                                    <li><a href="login.html"> عروسک </a></li>
+                                    <li><a href="compare.html">لوازم التحریر</a></li>
+                                    <li><a href="privacy-policy.html">بازی های ویدیویی</a></li>
+                                    <li><a href="coming-soon.html"> لوازم ماشین آلات</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="shop.html"> سلامتی و زیبایی</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="shop.html"> کامپیوترها و لوازم جانبی </a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="shop.html"> لوازم و هدایای تعطیلات </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="widget_inner widget-background mt-50">
+                        <div class="widget_list widget_filter">
+                            <div class="sidebar-title">
+                                <h4 class="title-shop">فیلتر کردن بر اساس قیمت</h4>
+                            </div>
+                            <form  >
+                                <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 10%; width: 80%;">
+                                </div>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 10%;"></span>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 90%;"></span></div>
+                                <button type="submit">فیلتر </button>
+                                <input type="text" name="price" id="amount">
+                            
+                        </div>
+                        <div class="widget_list widget_categories mt-20">
+                            <div class="sidebar-title">
+                                <h4 class="title-shop">دسته بندی</h4>
+                            </div>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" name="brand[]" value='lenova' onchange='this.form.submit()'>
+                                    <a href="#"> دسته بندی ها1 (6)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="brand[]" value="apple" onchange='this.form.submit()'>
+                                    <a href="#"> دسته بندی ها2(10)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="brand[]" value="asus" onchange='this.form.submit()'>
+                                    <a href="#"> دسته بندی ها3 (4)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="widget_list widget_categories mt-20">
+                            <div class="sidebar-title">
+                                <h4 class="title-shop"> تولید کننده </h4>
+                            </div>
+                            <ul>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> قطعات ترمز (6) </a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> قطعات ترمز (6) </a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> قطعات موتور (4) </a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> هرمس (10) </a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> لوئیس ویتون (8) </a>
+                                    <span class="checkmark"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="widget_list widget_categories mt-20">
+                            <div class="sidebar-title">
+                                <h4 class="title-shop"> بر اساس رنگ انتخاب کنید </h4>
+                            </div>
+                            <ul>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> سیاه (6)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> آبی (8)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> قهوه ای (10)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> سبز (6)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> صورتی (4)</a>
+                                    <span class="checkmark"></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <a href="#"> سفید (2)</a>
+                                    <span class="checkmark"></span>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                    </div>
+                    <!-- Shop Banner Start -->
+                    <div class="single-banner text-center mt-50 mb-30">
+                        <a href="#"><img src="{% static 'images/banner/shop-banner-2.jpg' %}" alt="" class="img-fluid"></a>
+                    </div>
+                    <!-- Shop Banner End -->
+                </aside>
+            </div>
+            <div class="col-lg-9 order-first order-lg-last">
+                <!-- Shop Banner Start -->
+                <div class="single-banner mt-50 mb-50">
+                    <a href="#"><img src="{% static 'images/banner/shop-banner-1.jpg' %}" alt="" class="img-fluid"></a>
+                </div>
+                <!-- Shop Banner End -->
+                <!-- Shop Toolbar Start -->
+                <div class="toolbar-shop mb-50">
+                    <div class="shop_toolbar_btn">
+                        <button data-role="grid_3" class="btn-grid-3 active"></button>
+                        <button data-role="grid_list" class="btn-list"></button>
+                    </div>
+                    <div class="page-amount">
+                        <p> {{object_list.count}} محصول وجود دارد </p>
+                    </div>
+                    <div>
+                        <form>                                      
+                                <select style='border-radius:5px;border:1px solid gray' name="filter" id="ddl"  onchange="this.form.submit();" >
+                                    <option value="0" >--- فیلتر کردن----</option>
+                                    <option value="name" {% if request.GET.filter == 'name' %}selected{% endif %}> مرتب کردن بر اساس نام</option>
+                                    <option value="date" {% if request.GET.filter == 'date' %}selected{% endif %}> مرتب کردن بر اساس تاریخ</option>
+                                    <option value="cheap" {% if request.GET.filter == 'cheap' %}selected{% endif %}> مرتب کردن بر اساس ارزان ترین</option>
+                                    <option value="expensive" {% if request.GET.filter == 'expensive' %}selected{% endif %}> مرتب کردن بر اساس گران  ترین</option>
+                                    <option value="discount"  {% if request.GET.filter == 'discount' %}selected{% endif %}> مرتب کردن بر اساس تخفیف</option>
+                                </select>
+                            </form> 
+                    </div>
+                </div>
+                <!-- Shop Toolbar End -->
+                <!-- Shop Wrapper Start -->
+                <div class="row shop-wrapper grid_3">
+                    {% for i in page_obj %}
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-20">
+                            <!-- Single-Product-Start -->
+                            <div class="item-product pt-0">
+                                <div class="product-thumb">
+                                    <a href="/products/{{i.id}}/{{i.newstring}}">
+                                        <img src="{{i.image.url}}" alt=""  class="img-fluid">
+                                    </a>
+                                    {% comment %} <div class="box-label">
+                                        <div class="label-product-new">
+                                            <span>جدید </span>
+                                        </div>
+                                    </div> {% endcomment %}
+                                    <div class="action-link">
+                                        
+                                    </div>
+                                </div>
+                                <div class="product-caption">
+                                    <div class="product-name">
+                                        <a href="/products/{{i.id}}/{{i.newstring}}">{{i.title}}</a>
+                                    </div>
+                                    <div class="rating">
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="price-box">
+                                        {% if i.discount == 0 %}
+                                            <span class="regular-price">{{i.price|intcomma:False}}</span>
+                                        {% else %}
+                                        <span class="regular-price">{{i.discounts|intcomma:False}}</span>
+                                        <span class="old-price"><del>{{i.price|intcomma:False}}</del></span>
+                                        {% endif %} 
+                                       
+                                    </div>
+                                    <div class="cart">
+                                        <div class="add-to-cart">
+                                            <a href="/products/{{i.id}}/{{i.newstring}}" title="افزودن به سبد خرید"><i class="zmdi zmdi-shopping-cart-plus zmdi-hc-fw"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-list-caption align-items-center">
+                                    <div class="product-name">
+                                        <a href="products/{{i.id}}">{{i.title}}</a>
+                                    </div>
+                                    <div class="rating">
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="price-box">
+                                        {% if i.discount == 0 %}
+                                        <span class="regular-price">{{i.price|intcomma:False}}</span>
+                                        {% else %}
+                                        <span class="regular-price">{{i.discounts|intcomma:False}}</span>
+                                        <span class="old-price"><del>{{i.price|intcomma:False}}</del></span>
+                                        {% endif %} 
+                                    </div>
+                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است ، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+                                    <div class="text-available">
+                                        <p><strong>موجودیت: </strong><span> در انبار </span></p>
+                                    </div>
+                                    <div class="action-link">
+                                    </div>
+                                    <div class="cart-list-button">
+                                        <a href="addtocart"  class="cart-btn text-right">جزئیات ..</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single-Product-End -->
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Shop Wrapper End -->
+                <!-- Shop Toolbar Start -->
+                <div class="toolbar-shop toolbar-bottom">
+                    <div class="page-amount">
+                        <p> نمایش 1-10 از 30 نتیجه </p>
+                    </div>
+                    <div class="pagination">
+                        <ul>
+                            {% if page_obj.has_previous %}
+                            <li class="pervious"><a href="{% if request.GET %}?filter={{request.GET.filter}}&{% endif %}?page={{ page_obj.previous_page_number }}"><i class="fa fa-angle-left"></i> قبلی </a></li>
+                            {% endif %}
+                            {% for page in paginator.page_range %}
+                            {% if page == page_obj.number%}
+                            <li class="current">{{page}}</li>
+                            {% else %}
+                            <li><a href="{% if request.GET %}?filter={{request.GET.filter}}&{% endif %}?page={{page}}">{{page}}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li class="next"><a href="{% if request.GET %}?filter={{request.GET.filter}}&{% endif %}?page={{ page_obj.next_page_number }}">بعدی <i class="fa fa-angle-right"></i></a>
+                            <li>
+						{% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- Shop Toolbar End -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+

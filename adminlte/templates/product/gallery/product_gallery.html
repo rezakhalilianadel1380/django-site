@@ -1,0 +1,126 @@
+{% extends 'adminlte/_Main_layout.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<section class="content-header">
+    <h1>
+     گالری عکس 
+      
+  
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/adminlte"><i class="fa fa-dashboard"></i> داشبرد</a></li>
+      <li><a href="/adminlte/product"><i class="fa fa-laptop"></i>محصولات</a></li>
+      <li class="active"> 
+          <i class="fa fa-image">  گالری عکس</i>
+       
+    </ol>
+</section>
+
+{% for msg in messages %}
+<br>
+<div class='row '>   
+    <div class="col-12">
+        {% if msg.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible"   style="padding-right: 30px;">
+          <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{msg}}
+         </div>
+        {% endif %}
+        {% if msg.tags == 'error' %}
+        <div class="alert alert-danger alert-dismissible"  style="padding-right: 30px;">
+          <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{msg}}
+         </div>
+        {% endif %}
+        {% if msg.tags == 'warning' %}
+        <div class="alert alert-warning alert-dismissible"  style="padding-right: 30px;">
+          <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{msg}}
+         </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+<br>
+<section class="content">
+    
+    <div class="row">
+        <form>
+        <div class="box-header">
+            
+            <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    
+                <input type="text" name="q" value="{{request.GET.q}}" class="form-control pull-right" placeholder="جستجو">
+
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </div>
+            <h3 class="box-title"><a class="btn btn-primary" href="/adminlte/product/gallery/add"><i class="fa fa-plus"></i> اضافه کردن</a>
+            </h3>
+        </div>
+    </from>
+    </div>
+    
+    <div class="row" >
+        {% for image in page_obj %}
+        <div class="card col-md-3 ">
+           <div class="card-img p-3">
+          <img src="{{image.image.url}}"  width="100%" class="card-img-top " alt="...">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{image.title}}</h5>
+            <p class="card-text"> <a target="_blank" href="/products/{{image.product.id}}/{{image.product.newstring}}">{{image.product.title}}</a></p>
+            
+          </div>
+          <div class="card-footer">
+            <p class="card-text" style="display:flex;justify-content: space-between;">
+           
+                <a class="text-white btn btn-success" href="/adminlte/product/gallery/edite/{{image.id}}" > ویرایش </a>
+                <a class="btn btn-danger" href="#" data-val="/adminlte/product/gallery/delete/{{image.id}}" data-toggle="modal" data-target="#modal-danger"> حذف </a>
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-sm-12" style="display: flex;justify-content: center;">
+            <div class="dataTables_paginate paging_simple_numbers " id="example2_paginate">
+                <ul class="pagination " style="margin-right: 10px;">
+                
+                    {% if page_obj.has_previous %}
+                    <li class="paginate_button previous" ><a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i class="fa fa-angle-right"></i> قبلی </a></li>
+                    {% endif %}
+                    {% for page in page_obj.paginator.page_range %}
+                        {% if page == page_obj.number%}
+                            <li class="paginate_button  active"><a>{{page}}</a></li>
+                        {% else %}
+                            <li class="paginate_button"><a href="?page={{page}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}">{{page}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="paginate_button next"><a href="?page={{page_obj.next_page_number}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}"> بعدی <i class="fa fa-angle-left"></i></a>
+                    <li>
+                        {% endif %}
+                </ul>
+               
+             </div>
+        </div>
+    </div>
+    
+</section>
+{% endblock content %}
+
+
+
+
+
+
+
+

@@ -1,0 +1,79 @@
+{% extends 'base/_MainLayout.html' %}
+{% load static %}
+{% block title %}ورود{% endblock title %}
+{% block content %}
+<div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li>
+                                <h1><a href="/">صفحه اصلی</a></h1>
+                            </li>
+                            <li>ورود</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<div class="alert alert-success alert-dismissible fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> This alert box could indicate a successful or positive action.
+  </div>
+
+
+<div class="login-area mt-25">
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6">
+                    <div class="checkout_info mb-20">
+                        <form class="form-row" method="post">
+                            {% csrf_token %}
+                            <h1 class="last-title mb-30 text-center">ورود با حساب کاربری</h1>
+                            <div class="form_group col-12">
+                                <label class="form-label"> ایمیل یا نام کاربری <span> * </span></label>
+                                {% for i in form.username.errors  %}
+                                <p class='text-danger' >{{i}}</p>
+                                {% endfor %}
+                                {{form.username}}
+                            </div>
+                            <div class="form_group col-12 position-relative">
+                                <label class="form-label"> رمز عبور <span> * </span></label>
+                                    {% for i in form.password.errors  %}
+                                <p class='text-danger' >{{i}}</p>
+                                {% endfor %}
+                               {{form.password}}
+                                <a class="show-btn" style='text-decoration:none;color:white; ' onclick="showpassbtn('myInput')">نمایش</a>
+                            </div>
+                            <div class="form_group group_3 col-lg-3">
+                                <button class="login-register" type="submit">ورود</button>
+                            </div>
+                            <div class="form_group group_3 col-lg-9">
+                                <label for="remember_box">
+                                    <input id="remember_box" type="checkbox">
+                                    <span>مرا بخاطر بسپار</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12 text-left">
+                                <a class="lost-password" href="#">رمز عبور را فراموش کرده ام</a>
+                            </div>
+                            <div class="col-lg-12 text-left">
+                                <p class="register-page"> حساب کاربری ندارید؟ <a href="/register">  برای ایجاد حساب کلیک کنید  </a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+

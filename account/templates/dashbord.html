@@ -1,0 +1,183 @@
+{% extends 'base/_MainLayout.html' %}
+{% load static %}
+{% block content %}
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <h1><a href="index.html">صفحه اصلی</a></h1>
+                        </li>
+                        <li>حساب من</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-account-area mt-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-2">
+                <ul class="nav flex-column dashboard-list mb-20 role=" tablist"=">
+                    <li><a class="nav-link" data-bs-toggle="tab" href="#dashboard">داشبورد</a></li>
+                    <li> <a class="nav-link active show" data-bs-toggle="tab" href="#orders">سفارش ها</a></li>
+                    <li><a class="nav-link" data-bs-toggle="tab" href="#downloads">دانلودها</a></li>
+                    <li><a class="nav-link" data-bs-toggle="tab" href="#address">آدرس ها</a></li>
+                    <li><a class="nav-link" data-bs-toggle="tab" href="#account-details">جزئیات حساب</a></li>
+                    <li><a class="nav-link" href="login.html">خروج</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard-content mb-20">
+                    <div id="dashboard" class="tab-pane fade">
+                        <h3 class="last-title">داشبورد </h3>
+                        <p>لورم ایپسوم متن ساختگی با استفاده از صنعت چاپ <a href="#"> متخصصین نرم افزار </a> و مهندسین   <a href="#"> بااستفاده از علوم </a> کامپیوتر <a href="#"> در همه زمانها می باشد</a></p>
+                    </div> <!-- end of tab-pane -->
+                    <div id="orders" class="tab-pane fade active show">
+                        <h3 class="last-title">سفارش ها</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>سفارش</th>
+                                        <th>تاریخ</th>
+                                        <th>وضعیت</th>
+                                        <th>مجموع</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td> 5 آبان 1400</td>
+                                        <td>در حال پردازش</td>
+                                        <td>1 عدد تیشرت نگین </td>
+                                        <td><a class="btn btn-secondary" href="cart.html"> مشاهده </a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td> 5 آبان 1400</td>
+                                        <td>در حال پردازش</td>
+                                        <td>17 عدد کفش نایک </td>
+                                        <td><a class="btn btn-secondary" href="cart.html"> مشاهده </a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- end of tab-pane -->
+                    <div id="downloads" class="tab-pane fade">
+                        <h3 class="last-title">دانلودها</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>محصولات</th>
+                                        <th>دانلودها</th>
+                                        <th>انقضاء</th>
+                                        <th>دانلود</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>مترسک ها پرواز نمیکنند</td>
+                                        <td>5 آبان 1400</td>
+                                        <td> هرگز</td>
+                                        <td><a class="btn btn-secondary" href="#">دانلود فایل</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>کتاب زبان تخصصی</td>
+                                        <td>10 خرداد 1400</td>
+                                        <td> هرگز</td>
+                                        <td><a class="btn btn-secondary" href="#">انلود فایل</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- end of tab-pane -->
+                    <div id="address" class="tab-pane">
+                        <p>آدرس اختیاری و پیش فرض خود را بنویسید</p>
+                        <h4 class="billing-address">جزئیات آدرس</h4>
+                        <a class="btn btn-secondary my-4" href="#">ویرایش</a>
+                        <address>
+                            کشور ایران<br>استان اصفهان <br>خیابان 4 راه حکیم نظامی <br>کوچه نیلوفـر <br> پلاک 10000 <br>
+                    </address>
+                            <p>تهران</p>
+                            <p>مشهد</p>
+                    </div> <!-- end of tab-pane -->
+                    <div id="account-details" class="tab-pane fade">
+                        <h3 class="last-title">جزئیات حساب کاربری</h3>
+                        <div class="checkout_info">
+                            <form class="form-row" action="#">
+                                <div class="col-lg-12 text-left mb-20">
+                                    <p class="register-page"> حساب دارید؟ <a href="login.html">ورود </a></p>
+                                </div>
+                                <div class="form_group col-12 col-lg-6">
+                                    <label class="form-label">نام <span>*</span></label>
+                                    <input class="input-form" type="text">
+                                </div>
+                                <div class="form_group col-12 col-lg-6">
+                                    <label class="form-label">نام خانوادگی <span>*</span></label>
+                                    <input class="input-form" type="text">
+                                </div>
+                                <div class="form_group col-12">
+                                    <label class="form-label">آدرس ایمیل <span>*</span></label>
+                                    <input class="input-form" type="text">
+                                </div>
+                                <div class="form_group col-12 col-lg-6">
+                                    <label class="form-label">رمز عبور <span>*</span></label>
+                                    <input class="input-form input-login" type="text">
+                                    <button class="show-btn">نمایش</button>
+                                </div>
+                                <div class="form_group col-12 col-lg-6">
+                                    <label class="form-label">تایید رمز عبور <span>*</span></label>
+                                    <input class="input-form input-login" type="text">
+                                    <button class="show-btn">نمایش</button>
+                                </div>
+                                <div class="form_group col-12 position-relative">
+                                    <label class="form-label">تولد (اختیاری)</label>
+                                    <input class="input-form" type="text">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <div class="form-check">
+                                            <div class="custom-checkbox">
+                                                <input class="form-check-input" type="checkbox" id="agree-condition">
+                                                <span class="checkmark"></span>
+                                                <label class="form-check-label" for="agree-condition">دریافت آخرین تخفیفات </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <div class="form-check">
+                                            <div class="custom-checkbox">
+                                                <input class="form-check-input" type="checkbox" id="agree-condition-2">
+                                                <span class="checkmark"></span>
+                                                <label class="form-check-label" for="agree-condition-2">میتوانید در خبرنامه روزگی ما با دریافت شماره اشتراک عضو شوید</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row mt-20">
+                                    <input type="submit" class="btn-secondary" value="ثبت نام">
+                                </div>
+                            </form>
+                        </div>
+                    </div> <!-- end of tab-pane -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+

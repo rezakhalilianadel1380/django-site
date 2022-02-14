@@ -1,0 +1,94 @@
+{% load static %}
+{% url 'order_edite' form.instance.id  as d%}
+<script src="{% static 'adminlte/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+{% if request.path == d %}
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endif %}
+<script  type="text/javascript" src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<!-- FastClick -->
+<script src="{% static 'adminlte/bower_components/fastclick/lib/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<!-- Sparkline -->
+<script src="{% static 'adminlte/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+<!-- jvectormap  -->
+<script src="{% static 'adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+<!-- SlimScroll -->
+<script src="{% static 'adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<!-- ChartJS -->
+<script src="{% static 'adminlte/dist/js/demo.js' %}"></script>
+<script src="{% static 'adminlte/dist/js/pages/dashboard2.js' %}"></script>
+<script src="{% static 'adminlte/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
+</script>
+<!-- confirm delete product  adminlte -->
+<script>
+  $('#modal-danger').on('show.bs.modal', function (event) {
+    var myVal = $(event.relatedTarget).data('val');
+    $(this).find("#pid").attr("href",myVal)
+  }); 
+</script>
+<!-- /confirm delete product  adminlte -->
+<script>
+  var labels=[];
+  var datas=[];
+  $.ajax({
+      url:'/adminlte/chartjs',
+      type:'GET',
+      success:function(response){
+          lables=response.lables
+          datas=response.data
+          chart()
+      },
+  });
+
+  function chart(){
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:lables,
+            datasets: [{
+                label: 'تعداد',
+                data:datas,
+                backgroundColor: [
+                    'rgba(255, 99, 132)',
+                    'rgba(54, 162, 235)',
+                    'rgba(255, 206, 86)',
+                    'rgba(75, 192, 192)',
+                    'rgba(153, 102, 255)',
+                    'rgba(255, 159, 64)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+  }
+</script>
+
+
+
+

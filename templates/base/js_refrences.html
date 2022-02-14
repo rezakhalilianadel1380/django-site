@@ -1,0 +1,145 @@
+{% load static %}
+ <!-- jQuery JS -->
+    <script src="{% static 'js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <!-- jQuery Migrate JS -->
+    <script src="{% static 'js/vendor/jquery-migrate-3.3.2.min.js' %}"></script>
+    <!-- Modernizer JS -->
+    <script src="{% static 'js/vendor/modernizr-3.8.0.min.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+    <!-- Plugins JS -->
+    <script src="{% static 'js/plugins/plugins.js' %}"></script>
+    <!-- Jquery ui JS -->
+    <script src="{% static 'js/plugins/jquery.ui.js' %}"></script>
+    <!-- Mailchimp JS -->
+    <script src="{% static 'js/plugins/jquery.ajaxchimp.min.js' %}"></script>
+    <!-- Jquery Magnific Popup JS -->
+    <script src="{% static 'js/plugins/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Slick JS -->
+    <script src="{% static 'js/plugins/slick.min.js' %}"></script>
+    <!-- Modal JS -->
+    <script src="{% static 'js/plugins/modal.min.js' %}"></script>
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'js/plugins/sticky-sidebar.min.js' %}"></script>
+    <!-- Countdown JS -->
+    <script src="{% static 'js/plugins/countdown.min.js' %}"></script>
+    <!-- jQuery Nice Select JS -->
+    <script src="{% static 'js/plugins/jquery.nice-select.min.js' %}"></script>
+    <!-- Main JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      function showpassbtn(sh) {
+         var x = document.getElementById(sh);
+         if (x.type === "password") {
+           x.type = "text";
+         } else {
+           x.type = "password";
+         }
+       }
+
+    </script>
+    <script>
+         function updateorder(){
+            window.location.reload();
+         }
+    </script>
+   
+
+    <script>
+       function handleOrderCount(OrderId,vae){     
+            $.ajax({
+                url:'/adding',
+                type:'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                data:{
+                    "OrderId": OrderId,
+                    "count":vae.value,
+                },
+                success:function(respond){
+                    $(vae).val(respond.count),
+                    window.location.reload()
+                     
+                },
+                error:function(respond){
+                    alert(respond);
+                }
+            });
+      }
+      function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+    }
+        return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+    </script>
+    <script>
+        function handlecity(){     
+            $.ajax({
+                url:'/city',
+                type:'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                data:{
+                    "state":$('#AttorneyEmpresa option:selected').val()
+                },
+                success:function(rsp){
+                    document.getElementById('states').innerHTML = "";
+                    $("#states").append('<option value="">------</option>')
+                    for (let i = 0; i < Object.keys(rsp.city).length; i++) {
+                        $("#states").append('<option value='+rsp.city[i]+'>'+ rsp.city[i]  +'</option>')
+
+                    }
+                   
+                   
+                },
+            });
+      }
+    </script>
+    <script>
+
+        function check(input)
+        {
+            
+            var checkboxes = document.getElementsByClassName("radioCheck");
+            
+            for(var i = 0; i < checkboxes.length; i++)
+            {
+                //uncheck all
+                if(checkboxes[i].checked == true)
+                {
+                    checkboxes[i].checked = false;
+                }
+            }
+            input.checked = true;
+            	
+        }
+    </script>
+   <script>
+         function  payment(){
+            var checkboxes = document.getElementsByClassName("radioCheck");
+            for(var i = 0; i < checkboxes.length; i++)
+            {
+                //uncheck all
+                if(checkboxes[i].checked == true)
+                {
+                  var chek=checkboxes[i].value;
+                  location.href = '/payment/'+chek;
+                }
+               }
+            
+         }
+    </script>
+
+
+
+   

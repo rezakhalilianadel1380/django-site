@@ -1,0 +1,42 @@
+from django.urls import path
+from .views import (
+    admin_product,
+    admin_product_delete,
+    category_add,
+    category_delete,
+    category_edite,
+    loginadmin,
+    dashbord,
+    edit_product_admin,
+    order_edite,
+    order_list,
+    product_add_admin,
+    product_gallery,
+    product_gallery_add,
+    product_gallery_delete,
+    product_gallery_edite,
+    category_list,
+    ChartjsApi,
+    edite_user
+)
+
+urlpatterns = [
+    path('', dashbord,),
+    path('login', loginadmin),
+    path('product', admin_product),
+    path('product/delete/<id>', admin_product_delete),
+    path('product/edite/<id>', edit_product_admin, name='product_edite'),
+    path('product/add', product_add_admin, name='add'),
+    path('product/gallery', product_gallery),
+    path('product/gallery/delete/<id>', product_gallery_delete),
+    path('product/gallery/add', product_gallery_add),
+    path('product/gallery/edite/<int:id>', product_gallery_edite),
+    path('order', order_list),
+    path('order/edite/<int:id>', order_edite, name='order_edite'),
+    path('category', category_list,name='category_list'),
+    path('category/edite/<int:id>', category_edite),
+    path('category/delete/<int:id>', category_delete),
+    path('category/add',category_add),
+    path('chartjs',ChartjsApi.as_view()),
+    path('user/edite/<int:id>',edite_user),
+]

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load render_partial %}
+<html lang="en">
+<head>
+<title>{% block title %}{% endblock title %}</title>
+{% include 'base/header_refrences.html' %}
+</head>
+<body>
+
+{% render_partial 'Header' %}
+{% block content %}{% endblock content%}
+{% include 'base/Footer.html' %}
+{% include 'base/js_refrences.html' %}
+</body>
+</html>

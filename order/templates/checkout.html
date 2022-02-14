@@ -1,0 +1,265 @@
+{% extends 'base/_MainLayout.html' %}
+{% load static %}
+{% load humanize %} 
+{% block title %}پرداخت{% endblock title %}
+{% block content %}
+    <!--=====================
+    Breadcrumb Aera Start
+    =========================-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li>
+                                <h1><a href="index.html">صفحه اصلی</a></h1>
+                            </li>
+                            <li>
+                                <h1><a href="{% url 'cart' %}">سبد خرید</a></h1>
+                            </li>
+                            <li> پرداخت </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=====================
+    Breadcrumb Aera End
+    =========================-->
+
+    <!--======================
+    Checkout area Start
+    ==========================-->
+    <div class="checkout-area mt-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="form-head">ادرس ها </h5>
+                        </div>
+                        {% if address %}
+                        <div class='row'>
+                            <form class='form-row row'>
+                                {% for i in address  %}
+                                <div class='col-6 mb-4'>
+                                    <div class="form-check ">
+                                        <div class="custom-checkbox"   role="checkbox" aria-checked="false">
+                                            <input class="form-check-input radioCheck" value='{{i.id}}'  onclick="check(this);" type="checkbox" id="create_account-{{forloop.counter}}" {% if forloop.first %}checked{% endif %} >
+                                            <span class="checkmark"></span>
+                                            <label class="form-check-label" for="create_account-{{forloop.counter}}">به این ادرس فرستاده شود </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="mt-10">
+                                            <p>{{i.state}}, {{i.City}},{{i.post}} پلاک{{i.plak}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </form>
+                        </div> 
+                        {% else %}
+                        <div class='col-12'>
+                        <div class="alert alert-warning" role="alert">
+                            <p>هیچ ادرسی یافت نشد  لطفا از منوی زیر ادرس خود را وارد کنید</p>
+                        </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-lg-12">
+                        <h5 class="form-head" ><a data-bs-toggle="collapse" data-bs-target="#addresses">اضافه کردن ادرس </a> </h5>
+                    </div>
+                    <form class="form-row row collapse" method="POST" required id='addresses' >
+                        
+                            <div class="form_group col-12">
+                                <label class="form-label" for="state">استان<span> * </span></label>
+                                {% csrf_token %}
+                                <select name="select"  required oninvalid="setCustomValidity('لطفا استان خود را وارد کنید')" oninput="setCustomValidity('')"   class="niceselect-option nice-select open" id="AttorneyEmpresa" onchange="handlecity(this)">
+                                    <option value="">----</option>
+                                    {% for i in states %}
+                                    <option value="{{i.state_code}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                            </div>
+                            <div class="form_group col-12">
+                                <label class="form-label" for="state">شهر<span> * </span></label>
+                                <select required  class="niceselect-option nice-select " id='states' name="city"  oninvalid="setCustomValidity('لطفاً نام استان خود را وارد کنید')" oninput="setCustomValidity('')">
+                                    <option value="">------</option>
+                                </select>
+                            </div>
+                            <div class="form_group col-12">
+                                <label class="form-label">آدرس<span> * </span></label>
+                                <input name='posti' placeholder="نشانی پستی " required  oninvalid="setCustomValidity('لطفاً نشان پستی خود  را وارد کنید')" oninput="setCustomValidity('')" class="input-form" type="text">
+                            </div>
+                            <div class="form_group col-12">
+                                <input name='pelak' placeholder="شماره پلاک" required class="input-form" type="text"  oninvalid="setCustomValidity('لطفا شماره پلاک خود را وارد کنید ')" oninput="setCustomValidity('')">
+                            </div>
+                            <div class="form_group col-12 ">
+                                <label class="form-label">تلفن<span> * </span></label>
+                                <input  name='phone' class="input-form" type="text" required oninvalid="setCustomValidity('لطفاً شماره تلفن خود  را وارد کنید')" oninput="setCustomValidity('')">
+                            </div>
+                            <button type='submit' class='btn btn-primary'> ثبت کردن </button>
+                    </form>
+                    {% comment %} <div class="form-row">
+                        <div class="form-group col-12">
+                            <div class="form-check">
+                                <div class="custom-checkbox" data-bs-toggle="collapse" data-bs-target="#checkout-check" role="checkbox" aria-checked="false">
+                                    <input class="form-check-input" type="checkbox" id="create_account">
+                                    <span class="checkmark"></span>
+                                    <label class="form-check-label" for="create_account">ایجاد حساب؟</label>
+                                </div>
+                            </div>
+                            <div class="collapse" id="checkout-check">
+                                <div class="checkout_info">
+                                    <p>با وارد کردن اطلاعات زیر ، حساب ایجاد کنید. اگر مشتری بازگشتی هستید لطفاً در بالای صفحه وارد شوید.</p>
+                                    <form class="form-row" action="#">
+                                        <div class="form_group col-12">
+                                            <label class="form-label">رمز عبور حساب<span> * </span></label>
+                                            <input class="input-form" type="text">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12 col-md-12">
+                            <div class="form-check">
+                                <div class="custom-checkbox" data-bs-toggle="collapse" data-bs-target="#checkout-logs" role="checkbox" aria-checked="false">
+                                    <input class="form-check-input" type="checkbox" id="ship-address">
+                                    <span class="checkmark"></span>
+                                    <label class="form-check-label" for="ship-address">آدرس دیگری نیز دارید؟</label>
+                                </div>
+                            </div>
+                            <div class="ship-box-info collapse" id="checkout-logs">
+                                <form class="form-row">
+                                    <div class="form_group col-12 col-md-6">
+                                        <label class="form-label"> نام<span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12 col-md-6">
+                                        <label class="form-label"> نام خانوادگی<span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12 col-md-6">
+                                        <label class="form-label"> نام شرکت<span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12 col-md-6">
+                                        <label class="form-label">آدرس ایمیل<span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12">
+                                        <label class="form-label" for="country">کشور<span> * </span></label>
+                                        <select class="niceselect-option nice-select select-option" name="country" id="country">
+                                            <option value="2">مالزی</option>
+                                            <option value="3">ایران</option>
+                                            <option value="4">کویت</option>
+                                            <option value="5">چین</option>
+                                            <option value="6">لبنان</option>
+                                            <option value="7">بحرین</option>
+                                            <option value="8">آمریـکا</option>
+                                            <option value="9">روسـیه</option>
+                                        </select>
+                                    </div>
+                                    <div class="form_group col-12">
+                                        <label class="form-label">آدرس<span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12">
+                                        <label class="form-label">آپارتمان / واحد</label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12">
+                                        <label class="form-label">استان / شهر<span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12">
+                                        <label class="form-label">کد  <span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                    <div class="form_group col-12">
+                                        <label class="form-label">Province <span> * </span></label>
+                                        <input class="input-form" type="text">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                  
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <form class="form-row">
+                        <div class="col-lg-12">
+                            <h5 class="form-head rs-padding">سفارش شما</h5>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="order_table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>محصولات</th>
+                                            <th>مجموع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in order.orderdetail_set.all %} 
+                                        <tr>
+                                            <td><strong>{{order.count}}</strong> ×{{order.product.title}} </td>
+
+
+
+                                            <td>{{order.totalprice|intcomma:False}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>جمع خرید</th>
+                                            <td>{{order.total_with_post|intcomma:False}} تومان</td>
+                                        </tr>
+                                        <tr>
+                                            <th> حمل و نقل </th>
+                                            <td><strong>{% if order.total_with_post > 500000 %}رایگان{% else %}12,0000 تومان{% endif %}</strong></td>
+                                        </tr>
+                                        <tr class="order_total">
+                                            <th>مجموع صورتحساب</th>
+                                            <td><strong>{{order.total_with_post|intcomma:False}}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <div class="form-check">
+                                <div class="custom-checkbox">
+                                    <input required class="form-check-input" checked type="checkbox" id="agree-condition">
+                                    <span class="checkmark"></span>
+                                    <label class="form-check-label" for="agree-condition">من میپذیرم<a href="#">شرایط و خدمات را</a> و بدون قید و شرط به آنها پایبند خواهد بود.</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-end mt-20 mb-20">
+                        
+                        <button type="submit" onclick="payment()" class="btn-secondary {% if not address.exists %}disabled{% endif %} " >پرداخت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--======================
+    Checkout area End
+    ==========================-->
+
+
+    
+{% endblock content %}
