@@ -16,6 +16,9 @@ admin section
 
 ![image](https://user-images.githubusercontent.com/38360147/152802225-cb89ae71-44b3-46c1-851a-85699a0fe688.png)
 
+![image](https://user-images.githubusercontent.com/38360147/154801960-68b33b7e-599f-4eda-96d0-a10582ce16e3.png)
+
+
 **Installation**
 
 **1.clone Repository & Install Packages**
