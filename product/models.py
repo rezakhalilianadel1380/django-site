@@ -1,3 +1,4 @@
+from itertools import product
 from django.db import models
 import os,datetime
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -22,6 +23,8 @@ def change_name(instance,filename):
     name,ext=os.path.splitext(os.path.basename(filename))
     return  f'gallery/{currenttime}{ext}'
 
+
+
 class Product(models.Model):
     title=models.CharField(max_length=50)
     description=RichTextUploadingField()
@@ -34,6 +37,7 @@ class Product(models.Model):
     discount=models.IntegerField(default=0,validators=[MinValueValidator(0),MaxValueValidator(100)])
     active=models.BooleanField(default=False,verbose_name='فعال/غیر فعال ')
     Number=models.IntegerField()   #number of products
+  
 
     def __str__(self):
         return self.title
@@ -59,3 +63,9 @@ class Gallery(models.Model):
         return self.title
    
    
+class Tag(models.Model):
+    tagname=models.CharField(max_length=50)
+    product=models.ManyToManyField(Product,blank=True)
+    
+    def __str__(self):
+        return self.tagname

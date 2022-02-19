@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from product.models import Gallery, Product
+from product.models import Gallery, Product, Tag
 
 # Register your models here.
 
@@ -9,3 +9,4 @@ from product.models import Gallery, Product
 
 admin.site.register(Product)
 admin.site.register(Gallery)
+admin.site.register(Tag)

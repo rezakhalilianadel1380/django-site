@@ -17,7 +17,7 @@ from .views import (
     product_gallery_edite,
     category_list,
     ChartjsApi,
-    edite_user
+    edite_user,
 )
 
 urlpatterns = [

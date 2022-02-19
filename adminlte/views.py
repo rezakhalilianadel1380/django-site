@@ -1,5 +1,6 @@
+from distutils.log import error
 from django.shortcuts import redirect, render
-from product.models import Product, Gallery
+from product.models import Product, Gallery, Tag
 from adminlte.forms import Admin_Login, Category_edite, Product_Forms, User_Form, Userdetail_Form, order_eidte_form, product_gallery_add_form
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -38,8 +39,6 @@ def dashbord(request):
         'products': products,
     }
     return render(request, "dashbord_admin.html", context)
-
-
 
 
 def loginadmin(request):
@@ -87,13 +86,36 @@ def admin_product_delete(request, id):
     return redirect('/adminlte/product')
 
 
+
+def tags_checker(tags_input,tags_query,product):
+    error=[]
+    if tags_input == []:
+            tags_query.delete()
+    else:
+        for i in tags_input:
+            if not Product.objects.filter(tag__tagname=i, id=product.id).exists():
+                if Tag.objects.filter(tagname=i).exists():
+                    tag=Tag.objects.filter(tagname=i).first()
+                    tag.product.add(product.id)
+                else:
+                    tag = Tag.objects.create(tagname=i)
+                    tag.product.add(product.id)
+        for i in tags_query:
+            if i.tagname not in tags_input:
+                i.delete()
+    
+    return error
+
 @staff_member_required(login_url="/adminlte/login")
 def edit_product_admin(request, id):
     image = User_detail.objects.filter(user=request.user).first()
     product = get_object_or_404(Product, id=id)
+    tags_query = Tag.objects.filter(product=product)
     if request.method == 'POST':
         form = Product_Forms(
             request.POST, request.FILES, instance=product)
+        tags = request.POST.getlist('tag')
+        tags_checker(tags,tags_query,product)
         if form.is_valid():
             form.save()
             messages.success(request, 'محصول با موفقیت ویرایش شد ')
@@ -105,6 +127,7 @@ def edit_product_admin(request, id):
         form = Product_Forms(instance=product)
     context = {
         "form": form,
+        'barchasb': tags_query,
         'products': product,
         'image': image,
     }
@@ -113,7 +136,7 @@ def edit_product_admin(request, id):
 
 @staff_member_required(login_url="/adminlte/login")
 def product_add_admin(request):
-    
+
     image = User_detail.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = Product_Forms(request.POST, request.FILES)
@@ -360,15 +383,9 @@ def edite_user(request, id):
         form2 = Userdetail_Form(
             request.POST, request.FILES, instance=userdetail)
         form = User_Form(request.POST, instance=user)
-        if form.is_valid():
+        if form.is_valid() and form2.is_valid():
             form.save()
-            if form2.is_valid():
-                form2.save()
-            else:
-                messages.error(
-                    request, " adsfمشکلی پیش اومده لطفا در وارد کردن فیلد ها دقت کنید ")
-                return redirect(f'/adminlte/user/edite/{id}')
-
+            form2.save()
             messages.success(request, 'کاربر با موفقیت بروزرسانی شد ')
             return redirect(f'/adminlte/user/edite/{id}')
         else:

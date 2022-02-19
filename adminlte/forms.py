@@ -5,7 +5,7 @@ from category.models import Category
 from order.models import Order
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
-from product.models import Gallery, Product
+from product.models import Gallery, Product, Tag
 from django.contrib.auth.models import User
 
 
@@ -41,6 +41,7 @@ class Product_Forms(forms.ModelForm):
         self.fields['brand'].widget.attrs.update({'class': 'form-control'})
         self.fields['Number'].widget.attrs.update({'class': 'form-control'})
         self.fields['active'].widget.attrs.update({'class': 'minimal'})
+        # self.fields['tag'].widget.attrs.update({'class': 'form-control ','data-role':"tagsinput"})
 
 
 class product_gallery_add_form(forms.ModelForm):
@@ -101,6 +102,7 @@ class User_Form(forms.ModelForm):
         self.fields['user_permissions'].widget.attrs.update(
             {'class': 'form-control  select2'})
 
+
 class Userdetail_Form(forms.ModelForm):
     class Meta:
         model = User_detail
@@ -110,3 +112,4 @@ class Userdetail_Form(forms.ModelForm):
         super(Userdetail_Form, self).__init__(*args, **kwargs)
         self.fields["user"].widget = forms.HiddenInput()
        
+

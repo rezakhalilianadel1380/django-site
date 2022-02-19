@@ -101,6 +101,14 @@
               {% endfor %}
             </div>
             <div class="form-group">
+              <label for="exampleInputFile">تگ ها   : </label>
+              <select name='tag'  multiple  class='form-control'  data-role="tagsinput">
+               {% for barchasb in barchasb %}
+                <option value="{{barchasb.tagname}}"></option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
               <label for="exampleInputFile">تصویر :</label>
               {{form.image}}<br>
               {% for i in form.image.errors  %}
