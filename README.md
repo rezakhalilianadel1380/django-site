@@ -20,7 +20,7 @@ admin section
 
 **1.clone Repository & Install Packages**
 ```
-git clone https://github.com/rezakhalilianadel1380/django-ecommerce-site.git
+https://github.com/rezakhalilianadel1380/django-site.git
 pip install -r requirement.txt
 ```
 **2.Setup Virtualenv**
