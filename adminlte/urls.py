@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    Create_category,
     admin_product,
     admin_product_delete,
     category_add,
@@ -39,4 +40,5 @@ urlpatterns = [
     path('category/add',category_add),
     path('chartjs',ChartjsApi.as_view()),
     path('user/edite/<int:id>',edite_user),
+    path('add_category',Create_category.as_view()),
 ]

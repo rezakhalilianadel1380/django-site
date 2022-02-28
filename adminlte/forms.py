@@ -13,7 +13,7 @@ class Admin_Login(forms.Form):
     username = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
-            'placeholder': "ایمیل",
+            'placeholder': "نام کاربری ",
         }),
     )
     password = forms.CharField(widget=forms.PasswordInput(
@@ -41,7 +41,6 @@ class Product_Forms(forms.ModelForm):
         self.fields['brand'].widget.attrs.update({'class': 'form-control'})
         self.fields['Number'].widget.attrs.update({'class': 'form-control'})
         self.fields['active'].widget.attrs.update({'class': 'minimal'})
-        # self.fields['tag'].widget.attrs.update({'class': 'form-control ','data-role':"tagsinput"})
 
 
 class product_gallery_add_form(forms.ModelForm):

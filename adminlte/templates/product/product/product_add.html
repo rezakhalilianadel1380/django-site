@@ -2,166 +2,218 @@
 {% load thumbnail %}
 {% load humanize %}
 {% load static %}
-
-
-{% block title %}ایجاد محصول  | کنترل پنل مدیریت{% endblock title %}
+{% block title %}ایجاد محصول | کنترل پنل مدیریت{% endblock title %}
 {% block content %}
+
 
 <!-- Content Header (Page header) -->
 <section class="content-header" style="margin-bottom: 20px;">
   <h1>
-      ایجاد محصول 
+    فرم ایجاد محصول
   </h1>
   <ol class="breadcrumb">
     <li><a href="/adminlte"><i class="fa fa-dashboard"></i> داشبرد</a></li>
     <li><a href="/adminlte/product"><i class="fa fa-laptop"></i>محصولات</a></li>
-    <li class="active"> 
-      ایجاد محصول    
+    <li class="active">
+      فرم ایجاد محصول
     </li>
   </ol>
 </section>
-<!-- Content Header (Page header) end-->
-
+<!-- Content Header (Page header) end  -->
 
 <!-- django messages start -->
 {% for msg in messages %}
-    <div class='row' style="margin-bottom: 20px;margin-top:20px">   
-        <div class="col-12">
-            {% if msg.tags == 'success' %}
-            <div class="alert alert-success alert-dismissible" style="padding-right: 30px;" >
-                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <p >{{msg}}</p>
-             </div>
-            {% endif %}
-            {% if msg.tags == 'error' %}
-            <div class="alert alert-danger alert-dismissible" style="padding-right: 30px;" >
-                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{msg}}
-             </div>
-            {% endif %}
-            {% if msg.tags == 'warning' %}
-            <div class="alert alert-warning alert-dismissible" style="padding-right: 30px;" >
-                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{msg}}
-             </div>
-            {% endif %}
-        </div>
+<div class='row' style="margin-bottom: 20px;margin-top:20px">
+  <div class="col-12">
+    {% if msg.tags == 'success' %}
+    <div class="alert alert-success alert-dismissible" style="padding-right: 30px;">
+      <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <p>{{msg}}</p>
     </div>
+    {% endif %}
+    {% if msg.tags == 'error' %}
+    <div class="alert alert-danger alert-dismissible" style="padding-right: 30px;">
+      <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{msg}}
+    </div>
+    {% endif %}
+    {% if msg.tags == 'warning' %}
+    <div class="alert alert-warning alert-dismissible" style="padding-right: 30px;">
+      <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{msg}}
+    </div>
+    {% endif %}
+  </div>
+</div>
 {% endfor %}
 <!-- django messages end -->
 
 
+
 <section class="content ">
   <div class="row">
-    <div class="col-md-8">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">
-           فرم  ایجاد محصول    
-          </h3>
+
+    <form role="form" method="post" enctype="multipart/form-data">
+        <div class="col-md-8">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">
+                فرم ویرایش محصول
+              </h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            
+              {% csrf_token %}
+
+              <div class="box-body">
+                <div class="form-group {% if form.title.errors %}has-error{% endif %} ">
+                  <label for="exampleInputEmail1">عنوان :</label>
+                  {{form.title}}
+                  {% for i in form.title.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group  {% if form.description.errors %}has-error{% endif %}">
+                  <label for="exampleInputPassword1">توضیحات محصول :</label><br>
+                  {{form.description}}
+                  {% for i in form.description.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group {% if form.information.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">اطلاعات :</label><br>
+                  {{form.information}}
+                  {% for i in form.information.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group {% if form.price.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">قیمت : </label>
+                  {{form.price}}
+                  {% for i in form.price.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group  {% if form.category.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">دسته بندی : </label>
+                  {{form.category}}
+                  {% for i in form.category.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                  
+
+                </div>
+                <p><a style='cursor: pointer' id='categroy_add_button' data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class='fa fa-plus'></i> افزودن دسته بندی </a></p>
+                 
+                <div class="collapse" style='padding:20px;background-color:#F5F5F5' id="collapseExample">
+                    <div class="form-group">
+                      <label for="exampleInputFile">عنوان: </label>
+                      <input type="text" name='title_category' id="categorytitle" class='form-control'>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputFile">نام در url : </label>
+                      <input type="text" name='category_name' id='categoryname' class='form-control'>
+    
+                    </div>
+                    <a class='btn btn-primary' onclick="category_add()" style='float:left'>اضافه کردن</a>                 
+                  <br>
+                  <br>
+                </div>
+                
+                <div class="form-group {% if tag_error %}has-error{% endif %} " style='margin-top:20px'>
+                  <label for="exampleInputFile">تگ ها : </label>
+                  <select name='tag' multiple class='form-control' data-role="tagsinput">
+                  </select>
+                  {% for i in tag_error %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group {% if form.discount.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">تخفیف محصول :</label>
+                  {{form.discount}}
+                  {% for i in form.discount.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+
+                <div class="form-group {% if form.brand.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">برند :</label>
+                  {{form.brand}}
+                  {% for i in form.brand.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group {% if form.active.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">فعال :</label>
+                  {{form.active}}
+                  {% for i in form.active.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-group {% if form.Number.errors %}has-error{% endif %}">
+                  <label for="exampleInputFile">تعداد در انبار :</label>
+                  {{form.Number}}
+                  {% for i in form.Number.errors %}
+                  <p class='text-danger'>{{i}}</p>
+                  {% endfor %}
+                </div>
+                {{form.media}}
+
+
+              </div>
+
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary btn-block">ذخیره</button>
+              </div>
+            
+          </div>
         </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form role="form" method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          
-          <div class="box-body">
-            <div class="form-group ">
-              <label for="exampleInputEmail1">عنوان :</label>
-              {{form.title}}
-              {% for i in form.title.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">توضیحات محصول :</label><br>
-              {{form.description}}
-              {% for i in form.description.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">اطلاعات :</label><br>
-              {{form.information}}
-              {% for i in form.information.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">قیمت : </label>
-              {{form.price}}
-              {% for i in form.price.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">دسته بندی : </label>
-              {{form.category}}
-              {% for i in form.category.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">تصویر :</label>
-              {{form.image}}<br>
-              {% for i in form.image.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">کد تخفیف  :</label>
-              {{form.discount}}
-              {% for i in form.discount.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-           
-            <div class="form-group">
-              <label for="exampleInputFile">برند :</label>
-              {{form.brand}}
-              {% for i in form.brand.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group ">
-              <label for="exampleInputFile">فعال  :</label>
-              {{form.active}}
-              {% for i in form.active.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">تعداد در انبار :</label>
-              {{form.Number}}
-              {% for i in form.Number.errors  %}
-              <p class='text-danger' >{{i}}</p>
-              {% endfor %}
-            </div>
-            {{form.media}}
-           
 
-          </div>
-          
-          <!-- /.box-body -->
 
-          <div class="box-footer">
-            <button type="submit" class="btn btn-primary btn-block">ذخیره</button>
+        <div class="col-md-4">
+          <div class="box box-success box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">عکس محصول </h3>
+
+
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <img src="" id='previewimage'>
+                <label for="exampleInputFile">تصویر :</label>
+                {{form.image}}<br>
+                {% for i in form.image.errors %}
+                <p class='text-danger'>{{i}}</p>
+                {% endfor %}
+            </div>
+            <!-- /.box-body -->
           </div>
-        </form>
-      </div>
-    </div>
-    <div class="col-md-4">
-          <div class="col-md-12">
-            <p class="text-center">تصویر محصول</p>
-            {% if products.image is None%}
-              <img src="{% static 'giphy.gif' %}" style="border-radius:10px;" width="100%" height="100%"> 
-            {% endif %}
-               <img src="{{products.image.url}}" style="border-radius:10px;" width="100%" height="100%">
-                {{products.title}}
-          </div>
-    </div>
+{% comment %} 
+          <div class="box box-success box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">گالری عکس محصول</h3>
+
+
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              {% for photo in products.gallery_set.all  %}
+              <img src="{{photo.image.url}}" alt="" width="30%" height="130px">
+              {% endfor %}
+            </div>
+            <!-- /.box-body -->
+          </div> {% endcomment %}
+
+
+
+        </div>
+    </form>
   </div>
 </section>
-
 
 {% endblock content %}

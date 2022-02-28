@@ -1,4 +1,5 @@
 from distutils.log import error
+from itertools import product
 from django.shortcuts import redirect, render
 from product.models import Product, Gallery, Tag
 from adminlte.forms import Admin_Login, Category_edite, Product_Forms, User_Form, Userdetail_Form, order_eidte_form, product_gallery_add_form
@@ -17,23 +18,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import datetime
-
+from .serializer import Category_Serializer
 
 # Create your views here.
 
 
 @staff_member_required(login_url="/adminlte/login")
 def dashbord(request):
-    image = User_detail.objects.filter(user=request.user).first()
-    if User_detail.objects.filter(user=request.user).exists():
-        image = User_detail.objects.filter(user=request.user).first()
-    else:
-        image = None
     users = len(User.objects.all())
     orders = len(Order.objects.all())
     products = len(Product.objects.all())
     context = {
-        'image': image,
         'users': users,
         'orders': orders,
         'products': products,
@@ -62,19 +57,18 @@ def loginadmin(request):
     return render(request, 'login_admin.html', context)
 
 
+@user_passes_test(lambda u: u.has_perm('product.view_product'), login_url='/adminlte')
 @staff_member_required(login_url="/adminlte/login")
 def admin_product(request):
     product = Product.objects.order_by("-datetime")
     q = request.GET.get('q')
     if q is not None:
         product = product.filter(title__icontains=q)
-    image = User_detail.objects.filter(user=request.user).first()
     paginator = Paginator(product, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         "page_obj": page_obj,
-        'image': image,
     }
     return render(request, "product/product/product_admin.html", context)
 
@@ -86,36 +80,37 @@ def admin_product_delete(request, id):
     return redirect('/adminlte/product')
 
 
-
-def tags_checker(tags_input,tags_query,product):
-    error=[]
+def tags_checker(tags_input, tags_query, product):
+    error = []
     if tags_input == []:
-            tags_query.delete()
+        for i in tags_query:
+            i.product.remove(product.id)
     else:
         for i in tags_input:
             if not Product.objects.filter(tag__tagname=i, id=product.id).exists():
                 if Tag.objects.filter(tagname=i).exists():
-                    tag=Tag.objects.filter(tagname=i).first()
+                    tag = Tag.objects.filter(tagname=i).first()
                     tag.product.add(product.id)
                 else:
                     tag = Tag.objects.create(tagname=i)
                     tag.product.add(product.id)
         for i in tags_query:
             if i.tagname not in tags_input:
-                i.delete()
-    
+                i.product.remove(product.id)
     return error
 
+
+@user_passes_test(lambda u: u.has_perm('product.change_product'), login_url='/adminlte')
 @staff_member_required(login_url="/adminlte/login")
 def edit_product_admin(request, id):
-    image = User_detail.objects.filter(user=request.user).first()
     product = get_object_or_404(Product, id=id)
     tags_query = Tag.objects.filter(product=product)
+    tags_error = []
     if request.method == 'POST':
         form = Product_Forms(
             request.POST, request.FILES, instance=product)
         tags = request.POST.getlist('tag')
-        tags_checker(tags,tags_query,product)
+        tags_error = tags_checker(tags, tags_query, product)
         if form.is_valid():
             form.save()
             messages.success(request, 'محصول با موفقیت ویرایش شد ')
@@ -126,24 +121,31 @@ def edit_product_admin(request, id):
     else:
         form = Product_Forms(instance=product)
     context = {
+        'tag_error': tags_error,
         "form": form,
         'barchasb': tags_query,
         'products': product,
-        'image': image,
     }
     return render(request, "product/product/product_edit.html", context)
 
 
+@user_passes_test(lambda u: u.has_perm('product.add_product'), login_url='/adminlte')
 @staff_member_required(login_url="/adminlte/login")
 def product_add_admin(request):
-
-    image = User_detail.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = Product_Forms(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save()
+            tags = request.POST.getlist('tag')
+            for i in tags:
+                if Tag.objects.filter(tagname=i).exists():
+                    tag = Tag.objects.filter(tagname=i).first()
+                    tag.product.add(product.id)
+                else:
+                    tag = Tag.objects.create(tagname=i)
+                    tag.product.add(product.id)
             messages.success(request, 'محصول با موفقیت اضافه شد ')
-            return redirect(f'/adminlte/product/edite/{id}')
+            return redirect(f'/adminlte/product')
         else:
             messages.error(
                 request, "مشکلی پیش امده لطفا مدتی بعد دوباره سعی کنید")
@@ -151,14 +153,12 @@ def product_add_admin(request):
         form = Product_Forms()
     context = {
         "form": form,
-        'image': image,
     }
     return render(request, "product/product/product_add.html", context)
 
 
 @staff_member_required(login_url="/adminlte/login")
 def product_gallery(request):
-    image = User_detail.objects.filter(user=request.user).first()
     images = Gallery.objects.order_by('-time')
     q = request.GET.get('q')
     if q is not None:
@@ -167,7 +167,6 @@ def product_gallery(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
-        'image': image,
         "page_obj": page_obj
     }
     return render(request, "product/gallery/product_gallery.html", context)
@@ -182,7 +181,6 @@ def product_gallery_delete(request, id):
 
 @staff_member_required(login_url="/adminlte/login")
 def product_gallery_add(request):
-    image = User_detail.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = product_gallery_add_form(request.POST, request.FILES)
         if form.is_valid():
@@ -196,7 +194,6 @@ def product_gallery_add(request):
         form = product_gallery_add_form()
     context = {
         "form": form,
-        'image': image,
     }
     return render(request, "product/gallery/product_gallery_add.html", context)
 
@@ -204,7 +201,6 @@ def product_gallery_add(request):
 @staff_member_required(login_url="/adminlte/login")
 def product_gallery_edite(request, id):
     gallery_object = Gallery.objects.filter(id=id).first()
-    image = User_detail.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = product_gallery_add_form(
             request.POST, request.FILES, instance=gallery_object)
@@ -219,7 +215,6 @@ def product_gallery_edite(request, id):
         form = product_gallery_add_form(instance=gallery_object)
     context = {
         "form": form,
-        'image': image,
         'gallery_image': gallery_object,
     }
     return render(request, "product/gallery/gallery_edite.html", context)
@@ -243,7 +238,6 @@ def order_list(request):
 
 @staff_member_required(login_url="/adminlte/login")
 def order_edite(request, id):
-    image = User_detail.objects.filter(user=request.user).first()
     order = get_object_or_404(Order, id=id)
     if request.method == 'POST':
         form = order_eidte_form(request.POST, request.FILES, instance=order)
@@ -258,7 +252,6 @@ def order_edite(request, id):
         form = order_eidte_form(instance=order)
     context = {
         'form': form,
-        'image': image,
     }
     return render(request, "order/order_edite.html", context)
 
@@ -297,10 +290,8 @@ def category_edite(request, id):
                 request, "مشکلی پیش اومده لطفا در وارد کردن فیلد ها دقت کنید ")
     else:
         form = Category_edite(instance=category)
-    image = User_detail.objects.filter(user=request.user).first()
     context = {
         'form': form,
-        'image': image,
     }
     return render(request, "category/category_edite.html", context)
 
@@ -319,10 +310,8 @@ def category_add(request):
                 request, "مشکلی پیش اومده لطفا در وارد کردن فیلد ها دقت کنید ")
     else:
         form = Category_edite()
-    image = User_detail.objects.filter(user=request.user).first()
     context = {
         'form': form,
-        'image': image,
     }
     return render(request, "category/category_add.html", context)
 
@@ -373,16 +362,12 @@ class ChartjsApi(APIView):
 
 @user_passes_test(lambda u: u.has_perm('auth.change_user'), login_url='/login')
 def edite_user(request, id):
-    image = User_detail.objects.filter(user=request.user).first()
     user = get_object_or_404(User, id=id)
-    userdetail = User_detail.objects.filter(user=user).exists()
-    if not userdetail:
-        userdetail = User_detail.objects.create(user=user)
     userdetail = User_detail.objects.get(user=user)
     if request.method == 'POST':
-        form2 = Userdetail_Form(
+        form2 =Userdetail_Form(
             request.POST, request.FILES, instance=userdetail)
-        form = User_Form(request.POST, instance=user)
+        form = User_Form(request.POST,request.FILES, instance=user)
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
@@ -397,6 +382,14 @@ def edite_user(request, id):
     context = {
         'form': form,
         'form2': form2,
-        'image': image,
     }
     return render(request, 'user/user_edite.html', context)
+
+
+class Create_category(APIView):
+    def post(self, request):
+        serializer = Category_Serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)

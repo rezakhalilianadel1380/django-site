@@ -32,4 +32,5 @@ admin.site.register(User_Address)
 admin.site.register(User,Custom_admin)
 admin.site.register(State,StateAdmin)
 admin.site.register(City)
+admin.site.register(User_detail)
 

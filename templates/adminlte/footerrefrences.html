@@ -90,7 +90,43 @@
     });
   }
 </script>
+<script>
+  function category_add(){
+      $.ajax({
+          url:'/adminlte/add_category',
+          headers: {'X-CSRFToken': csrftoken},
+          type:'POST',
+          data:{
+              "name":$('#categoryname').val(),
+              "title":$('#categorytitle').val(),
+          },
+          success:function(rsp){
+            $('#id_category').append('<option value='+rsp.id+' selected>'+rsp.title+'</option>');
+            $('#categroy_add_button').click();
+            $('input[name="category_name"]').val("");
+            $('input[name="title_category"]').val("");
+            
+          },
+      });
+  }
 
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+  }
+      return cookieValue;
+      }
+      const csrftoken = getCookie('csrftoken');
 
+  </script>
 
 

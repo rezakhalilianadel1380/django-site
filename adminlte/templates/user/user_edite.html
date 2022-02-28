@@ -180,8 +180,9 @@
               </div>
               <!-- /.box-header -->
               <div class="box-body">
-                <img src="{{form2.instance.image.url}}" width="100%" height="300px" alt="">
-                 
+                <img src="{{form2.instance.get_avatar}}" width="100%" height="300px" alt="">
+                 <br>
+                 <br>
                 {% for i in form2.image.errors  %}
                 <p class='text-danger' >{{i}}</p>
                 {% endfor %}
