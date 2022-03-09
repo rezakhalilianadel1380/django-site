@@ -53,7 +53,7 @@
 
 <section class="content ">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">
@@ -104,6 +104,25 @@
           </div>
         </form>
       </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="box box-success box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">جزئیات سفارش</h3>
+
+
+          <!-- /.box-tools -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          {% for order_detail in form.instance.orderdetail_set.all  %}
+          <img src="{{order_detail.product.image.url}}" alt="" width="30%" height="130px">✗{{order_detail.count}}
+          {% endfor %}
+        </div>
+        <!-- /.box-body -->
+      </div>
+
     </div>
 
   </div>

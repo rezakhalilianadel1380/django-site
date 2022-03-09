@@ -40,18 +40,22 @@
 </script>
 <!-- /confirm delete product  adminlte -->
 <script>
-  var labels=[];
-  var datas=[];
-  $.ajax({
-      url:'/adminlte/chartjs',
-      type:'GET',
-      success:function(response){
-          lables=response.lables
-          datas=response.data
-          chart()
-      },
-  });
+    function a(){
+        alert('sdf');
+        }
 
+    var labels=[];
+    var datas=[];
+        $.ajax({
+            url:'/adminlte/chartjs',
+            type:'GET',
+            success:function(response){
+                lables=response.lables
+                datas=response.data
+                chart()
+            },
+        });
+        
   function chart(){
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {

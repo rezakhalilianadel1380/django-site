@@ -19,6 +19,7 @@ from .views import (
     category_list,
     ChartjsApi,
     edite_user,
+    User_List,
 )
 
 urlpatterns = [
@@ -39,6 +40,7 @@ urlpatterns = [
     path('category/delete/<int:id>', category_delete),
     path('category/add',category_add),
     path('chartjs',ChartjsApi.as_view()),
+    path('user',User_List.as_view()),
     path('user/edite/<int:id>',edite_user),
     path('add_category',Create_category.as_view()),
 ]

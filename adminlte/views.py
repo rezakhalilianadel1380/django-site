@@ -19,7 +19,8 @@ from rest_framework.response import Response
 from rest_framework import status
 import datetime
 from .serializer import Category_Serializer
-
+from django.views.generic import ListView
+from django.db.models import Q
 # Create your views here.
 
 
@@ -61,9 +62,13 @@ def loginadmin(request):
 @staff_member_required(login_url="/adminlte/login")
 def admin_product(request):
     product = Product.objects.order_by("-datetime")
-    q = request.GET.get('q')
+    q = request.GET.get('q',None)
     if q is not None:
-        product = product.filter(title__icontains=q)
+        lookup=(
+           Q(title__icontains=q)|
+           Q(tag__tagname__icontains=q)
+        )
+        product = product.filter(lookup).distinct()
     paginator = Paginator(product, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -393,3 +398,19 @@ class Create_category(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
+
+
+class User_List(ListView):
+    template_name = "user/user_list.html"
+    paginate_by = 6
+    
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
+    def get_queryset(self):
+       user=User.objects.all()
+       return user
+
+        
+

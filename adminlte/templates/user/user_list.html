@@ -1,0 +1,148 @@
+{% extends 'adminlte/_Main_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load jalali_tags %}
+{% block title %} کاربران | کنترل پنل مدیریت{% endblock title %}
+
+{% block content %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header"  style="margin-bottom: 20px;">
+    <h1>
+        کاربران
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/adminlte"><i class="fa fa-dashboard"></i> داشبرد</a></li>
+        <li class="active ">
+            <i class='fa fa-users'> </i>
+            کاربران
+        </li>
+    </ol>
+</section>
+<!-- Content Header (Page header) end  -->
+
+
+<!-- django messages start -->
+{% for msg in messages %}
+    <div class='row' style="margin-bottom: 20px;margin-top:20px">   
+        <div class="col-12">
+            {% if msg.tags == 'success' %}
+            <div class="alert alert-success alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <p >{{msg}}</p>
+             </div>
+            {% endif %}
+            {% if msg.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+             </div>
+            {% endif %}
+            {% if msg.tags == 'warning' %}
+            <div class="alert alert-warning alert-dismissible" style="padding-right: 30px;" >
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+             </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+<!-- django messages end -->
+
+
+
+
+<section class="content ">
+    <div class="row">
+      
+        <div class="col-md-12">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"> کاربران</h3>
+
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right"
+                                    placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>شماره کاربر</th>
+                                    <th>نام کاربری</th>
+                                    <th>نام </th>
+                                    <th>نام خانوادگی </th>
+                                    <th>ادمین</th>
+                                    <th>ایمیل</th>
+                                    <th>وضعیت</th>
+                                    <th>ویرایش </th>
+                                </tr>
+                                {% for user in page_obj %}
+                                <tr>
+                                    <td>{{user.id}}</td>
+                                    <td>{{user.username}}</td>
+                                    <td>{{user.first_name}}</td>
+                                    <td>{{user.last_name}}</td>
+                                    <td>
+                                        <span class="label {% if user.is_staff %}label-success {% else %}label-danger{% endif %} ">{%if user.is_staff %}✓ {% else %} ✗ {% endif %}</span>
+                                    </td>
+                                    <td>{{user.email}}</td>
+                                    <td><span
+                                        class="label {% if user.is_active %}label-success {% else %}label-danger{% endif %} ">{%if user.is_active %}✓</i> {% else %} ✗ {% endif %}</span>
+                                    </td>
+                                    <td class="product-remove"><a href="/adminlte/user/edite/{{user.id}}" ><i class="fa fa-pencil"></i></a></td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12" style="display: flex;justify-content:end;">
+            <div class="dataTables_paginate paging_simple_numbers " id="example2_paginate">
+                <ul class="pagination " style="margin-right: 10px;">
+
+                    {% if page_obj.has_previous %}
+                    <li class="paginate_button previous"><a
+                            href="?page={{ page_obj.previous_page_number }}{% if request.GET %}&q={{request.GET.q}}{% endif %}"><i
+                                class="fa fa-angle-right"></i> قبلی </a></li>
+                    {% endif %}
+                    {% for page in page_obj.paginator.page_range %}
+                    {% if page == page_obj.number%}
+                    <li class="paginate_button  active"><a>{{page}}</a></li>
+                    {% else %}
+                    <li class="paginate_button"><a
+                            href="?page={{page}}{% if request.GET %}&q={{request.GET.q}}{% endif %}">{{page}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="paginate_button next"><a
+                            href="?page={{page_obj.next_page_number}}{% if request.GET %}&q={{request.GET.q}}{% endif %}">
+                            بعدی <i class="fa fa-angle-left"></i></a>
+                    <li>
+                        {% endif %}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -210,7 +210,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              {% for photo in products.gallery_set.all  %}
+              {% for photo in products.gallerys.all  %}
               <img src="{{photo.image.url}}" alt="" width="30%" height="130px">
               {% endfor %}
               

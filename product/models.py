@@ -49,12 +49,13 @@ class Product(models.Model):
     def discounts(self):
         if self.discount == 0:
             return self.price
-        return int(self.price-(self.price*self.discount))
+        return int(self.price-(self.price*(self.discount/100)))
 
 
 class Gallery(models.Model):
     title = models.CharField(max_length=50)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE,related_name='gallerys')
     image = models.ImageField(upload_to=change_name, null=True, blank=True)
     time = models.DateTimeField(auto_now_add=True)
 

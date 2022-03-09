@@ -1,8 +1,10 @@
+from itertools import product
 from os import stat
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from hitcount.views import HitCountDetailView
+from category.models import Category
 from comment.models import Comment
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -23,7 +25,7 @@ class Productlist(ListView):
     paginate_by = 6
 
     def get_context_data(self, *args, object_list=None, **kwargs):
-        context = super(Productlist, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         return context
 
     def get_queryset(self):
@@ -54,7 +56,7 @@ class ProducDetail(HitCountDetailView):
     context_object_name = 'product'
 
     def get_context_data(self, *args, object_list=None, **kwargs):
-        context = super(ProducDetail, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         product_id = self.kwargs.get('pk')
         form = Add_To_Card(self.request.POST or None,
                            initial={'product_id': product_id})
@@ -63,6 +65,7 @@ class ProducDetail(HitCountDetailView):
         comments = Comment.objects.filter(product__id=product_id)
         products = Product.objects.exclude(id=product_id).filter(
             category__product__id=product_id)
+       
         context.update({
             'gallery': gallery,
             'form': form,
