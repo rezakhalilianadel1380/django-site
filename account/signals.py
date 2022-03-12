@@ -3,8 +3,12 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import User_detail
 
-
+#this func recive signals and create user_detail instance 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         User_detail.objects.create(user=instance)
+
+
+
+
