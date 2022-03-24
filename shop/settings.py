@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'comment',
     'adminlte',
     'rest_framework',
+
 ]
 
 MIDDLEWARE = [

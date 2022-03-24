@@ -94,10 +94,10 @@ def order(request):
             count=1
         if order.orderdetail_set.filter(product_id=product_id).exists():
             messages.error(request,'این محصول قبلا به سبد خرید شما اضافه شده است ')
-            return redirect(f'products/{product_id}/{product.newstring}')    
+            return redirect(f'products/{product_id}/{product.newstring()}')    
         OrderDetail.objects.create(order=order,product_id=product_id,price=product.discounts(),count=count)
         messages.success(request,'محصول با موفقیت به سبد خرید شما اضافه شده است ')
-        return redirect(f'products/{product_id}/{product.newstring}')
+        return redirect(f'products/{product_id}/{product.newstring()}')
     
 
 @login_required(login_url='/login')
