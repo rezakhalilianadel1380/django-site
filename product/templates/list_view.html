@@ -131,27 +131,28 @@
                                 <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 10%;"></span>
                                 <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 90%;"></span></div>
                                 <button type="submit">فیلتر </button>
-                                <input type="text" name="price" id="amount">
+                                {% comment %} <input type="text" name="price" id="amount"> {% endcomment %}
                             
                         </div>
+                        <br>
                         <div class="widget_list widget_categories mt-20">
                             <div class="sidebar-title">
-                                <h4 class="title-shop">دسته بندی</h4>
+                                <h4 class="title-shop"> سی پی یو </h4>
                             </div>
                             <ul>
                                 <li>
-                                    <input type="checkbox" name="brand[]" value='lenova' onchange='this.form.submit()'>
-                                    <a href="#"> دسته بندی ها1 (6)</a>
+                                    <input type="checkbox" name="brand" {% if request.GET.brand %}checked{% endif %} value='corei7' onchange='this.form.submit()'>
+                                    <a href="#"> corei7</a>
                                     <span class="checkmark"></span>
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="brand[]" value="apple" onchange='this.form.submit()'>
-                                    <a href="#"> دسته بندی ها2(10)</a>
+                                    <input type="checkbox" name="brand" {% if request.GET.brand %}checked{% endif %} value="corei5" onchange='this.form.submit()'>
+                                    <a href="#"> corei5 </a>
                                     <span class="checkmark"></span>
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="brand[]" value="asus" onchange='this.form.submit()'>
-                                    <a href="#"> دسته بندی ها3 (4)</a>
+                                    <input type="checkbox" name="brand" {% if request.GET.brand %}checked{% endif %} value="corei3" onchange='this.form.submit()'>
+                                    <a href="#"> corei3 </a>
                                     <span class="checkmark"></span>
                                 </li>
                             </ul>
@@ -229,9 +230,7 @@
                     </form>
                     </div>
                     <!-- Shop Banner Start -->
-                    <div class="single-banner text-center mt-50 mb-30">
-                        <a href="#"><img src="{% static 'images/banner/shop-banner-2.jpg' %}" alt="" class="img-fluid"></a>
-                    </div>
+                    
                     <!-- Shop Banner End -->
                 </aside>
             </div>

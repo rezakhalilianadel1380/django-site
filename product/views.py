@@ -31,6 +31,8 @@ class Productlist(ListView):
     def get_queryset(self):
         request = self.request
         allproduct = Product.objects.all()
+        brands = request.GET
+        print(brands)
         select = request.GET.get('filter')
         match select:
             case '0':
@@ -65,7 +67,7 @@ class ProducDetail(HitCountDetailView):
         comments = Comment.objects.filter(product__id=product_id)
         products = Product.objects.exclude(id=product_id).filter(
             category__product__id=product_id)
-       
+
         context.update({
             'gallery': gallery,
             'form': form,
